@@ -18,7 +18,15 @@ class StreaksScreenState extends State<StreaksScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeStreakCount();
     _loadStreakData();
+  }
+
+  Future<void> _initializeStreakCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('streakCount')) {
+      await prefs.setInt('streakCount', 0);
+    }
   }
 
   Future<void> _loadStreakData() async {

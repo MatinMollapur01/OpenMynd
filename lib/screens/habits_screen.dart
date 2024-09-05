@@ -5,7 +5,6 @@ import '../services/database_service.dart';
 import 'add_edit_habit_screen.dart';
 import 'streaks_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/intl.dart';
 import '../services/notification_service.dart';
 
 class HabitsScreen extends StatefulWidget {
@@ -24,9 +23,17 @@ class HabitsScreenState extends State<HabitsScreen> {
   @override
   void initState() {
     super.initState();
+    _initializeStreakCount();
     _loadHabits();
     _loadStreakCount();
     _startTimer();
+  }
+
+  Future<void> _initializeStreakCount() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (!prefs.containsKey('streakCount')) {
+      await prefs.setInt('streakCount', 0);
+    }
   }
 
   @override
@@ -37,6 +44,11 @@ class HabitsScreenState extends State<HabitsScreen> {
 
   void _startTimer() {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final now = DateTime.now();
+      final nextDay = DateTime(now.year, now.month, now.day + 1);
+      if (now.isAfter(nextDay)) {
+        _loadHabits();
+      }
       setState(() {
         // This will trigger a rebuild of the UI every second
       });
@@ -66,28 +78,24 @@ class HabitsScreenState extends State<HabitsScreen> {
 
       final now = DateTime.now();
       final today = DateTime(now.year, now.month, now.day);
-      final yesterday = today.subtract(const Duration(days: 1));
 
       bool allCompletedToday = _habits.every((habit) => 
         !habit.shouldCompleteToday() || habit.isCompletedToday);
 
-      int newStreakCount;
+      int newStreakCount = storedStreakCount;
       if (allCompletedToday) {
         if (lastStreakDate == null || DateTime.parse(lastStreakDate).isBefore(today)) {
           newStreakCount = storedStreakCount + 1;
-        } else {
-          newStreakCount = storedStreakCount;
+          await prefs.setString('lastStreakDate', today.toIso8601String());
         }
       } else {
-        if (lastStreakDate != null && DateTime.parse(lastStreakDate).isAtSameMomentAs(yesterday)) {
-          newStreakCount = storedStreakCount;
-        } else {
-          newStreakCount = 0;
+        if (lastStreakDate != null && DateTime.parse(lastStreakDate).isAtSameMomentAs(today)) {
+          newStreakCount = storedStreakCount - 1;
+          await prefs.remove('lastStreakDate');
         }
       }
 
       await prefs.setInt('streakCount', newStreakCount);
-      await prefs.setString('lastStreakDate', today.toIso8601String());
       setState(() {
         _streakCount = newStreakCount;
       });
@@ -160,10 +168,14 @@ class HabitsScreenState extends State<HabitsScreen> {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          ElevatedButton(
-            onPressed: () => _toggleHabitCompletion(habit),
-            child: Text(habit.isCompletedToday ? 'Undo' : 'Done'),
-          ),
+          habit.isCompletedToday
+              ? Text(_getTimeUntilNextDue(habit.nextDueTime!))
+              : Checkbox(
+                  value: habit.isCompletedToday,
+                  onChanged: (bool? value) {
+                    _toggleHabitCompletion(habit);
+                  },
+                ),
           IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () => _deleteHabit(habit),
@@ -177,6 +189,9 @@ class HabitsScreenState extends State<HabitsScreen> {
   String _getTimeUntilNextDue(DateTime nextDueTime) {
     final now = DateTime.now();
     final difference = nextDueTime.difference(now);
+    if (difference.isNegative) {
+      return '0s';
+    }
     if (difference.inDays > 0) {
       return '${difference.inDays}d ${difference.inHours % 24}h';
     } else if (difference.inHours > 0) {
@@ -197,36 +212,12 @@ class HabitsScreenState extends State<HabitsScreen> {
       }
       await _databaseService.updateHabit(habit);
       await _loadHabits(); // This will also call _updateStreakCount()
-
-      // Check if all habits are completed for today
-      bool allCompletedToday = _habits.every((habit) => 
-        !habit.shouldCompleteToday() || habit.isCompletedToday);
-
-      if (allCompletedToday) {
-        await _incrementStreakCount();
-      }
     } catch (e) {
       print("Error toggling habit completion: $e");
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to update habit: $e')),
       );
     }
-  }
-
-  Future<void> _incrementStreakCount() async {
-    final prefs = await SharedPreferences.getInstance();
-    final storedStreakCount = prefs.getInt('streakCount') ?? 0;
-    final newStreakCount = storedStreakCount + 1;
-    final today = DateTime.now();
-
-    await prefs.setInt('streakCount', newStreakCount);
-    await prefs.setString('lastStreakDate', today.toIso8601String());
-    setState(() {
-      _streakCount = newStreakCount;
-    });
-
-    // Update the streak count in the database
-    await _databaseService.updateStreakCount(newStreakCount, today);
   }
 
   Future<void> _addHabit() async {
