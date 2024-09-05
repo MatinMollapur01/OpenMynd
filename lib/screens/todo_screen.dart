@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:openmynd/models/habit.dart';
 import '../models/task.dart';
 import 'task_detail_screen.dart';
 import '../services/notification_service.dart';
 import '../services/database_service.dart';
+import 'package:logger/logger.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -17,6 +19,7 @@ class TodoScreenState extends State<TodoScreen> {
   final NotificationService _notificationService = NotificationService();
   final DatabaseService _databaseService = DatabaseService.instance;
   final TextEditingController _searchController = TextEditingController();
+  final Logger _logger = Logger();
 
   @override
   void initState() {
@@ -39,12 +42,14 @@ class TodoScreenState extends State<TodoScreen> {
         _tasks = tasks;
         _filteredTasks = tasks;
       });
-      print("Loaded ${tasks.length} tasks");
+      _logger.i("Loaded ${tasks.length} tasks");
     } catch (e) {
-      print("Error loading tasks: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load tasks: $e')),
-      );
+      _logger.e("Error loading tasks: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to load tasks: $e')),
+        );
+      }
     }
   }
 
@@ -120,7 +125,7 @@ class TodoScreenState extends State<TodoScreen> {
     );
   }
 
-  void _addTask() async {
+  Future<void> _addTask() async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const TaskDetailScreen()),
@@ -129,25 +134,22 @@ class TodoScreenState extends State<TodoScreen> {
       try {
         await _databaseService.createTask(result);
         if (result.dueDate != null) {
-          await _notificationService.scheduleNotification(
-            result.id,
-            result.title,
-            result.description ?? 'Task due',
-            result.dueDate!,
+          await _notificationService.scheduleHabitReminder(result as Habit);
+        }
+        _logger.i("Task added: ${result.title}");
+        await _loadTasks();
+      } catch (e) {
+        _logger.e("Error adding task: $e");
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to add task: $e')),
           );
         }
-        print("Task added: ${result.title}");
-        await _loadTasks(); // Reload tasks after adding
-      } catch (e) {
-        print("Error adding task: $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to add task: $e')),
-        );
       }
     }
   }
 
-  void _editTask(int index) async {
+  Future<void> _editTask(int index) async {
     final result = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => TaskDetailScreen(task: _filteredTasks[index])),
@@ -155,39 +157,37 @@ class TodoScreenState extends State<TodoScreen> {
     if (result != null && result is Task) {
       try {
         await _databaseService.updateTask(result);
-        await _notificationService.cancelNotification(result.id.hashCode);
+        await _notificationService.cancelHabitReminder(result.id);
         if (result.dueDate != null) {
-          await _notificationService.scheduleNotification(
-            result.id,
-            result.title,
-            result.description ?? 'Task due',
-            result.dueDate!,
+          await _notificationService.scheduleHabitReminder(result as Habit);
+        }
+        _logger.i("Task updated: ${result.title}");
+        await _loadTasks();
+      } catch (e) {
+        _logger.e("Error updating task: $e");
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Failed to update task: $e')),
           );
         }
-        print("Task updated: ${result.title}");
-        await _loadTasks(); // Reload tasks after editing
-      } catch (e) {
-        print("Error updating task: $e");
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to update task: $e')),
-        );
       }
     }
   }
 
-  void _deleteTask(int index) async {
+  Future<void> _deleteTask(int index) async {
     try {
       final taskToDelete = _filteredTasks[index];
       await _databaseService.deleteTask(taskToDelete.id);
-      // Instead of parsing the ID, use a unique integer for the notification
-      await _notificationService.cancelNotification(taskToDelete.id.hashCode);
-      print("Task deleted: ${taskToDelete.title}");
-      await _loadTasks(); // Reload tasks after deleting
+      await _notificationService.cancelHabitReminder(taskToDelete.id);
+      _logger.i("Task deleted: ${taskToDelete.title}");
+      await _loadTasks();
     } catch (e) {
-      print("Error deleting task: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to delete task: $e')),
-      );
+      _logger.e("Error deleting task: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to delete task: $e')),
+        );
+      }
     }
   }
 

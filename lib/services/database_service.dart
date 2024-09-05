@@ -22,7 +22,7 @@ class DatabaseService {
 
     return await openDatabase(
       path, 
-      version: 4, // Increase this to 4
+      version: 6, // Increase this to 6
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -55,30 +55,36 @@ class DatabaseService {
       notes TEXT,
       reminderTime TEXT,
       frequency INTEGER,
-      customDays TEXT
+      customDays TEXT,
+      isCompletedToday INTEGER NOT NULL,
+      lastCompletionTime TEXT,
+      nextDueTime TEXT
+    )
+    ''');
+
+    await db.execute('''
+    CREATE TABLE streaks(
+      date TEXT PRIMARY KEY,
+      streak_count INTEGER NOT NULL
     )
     ''');
   }
 
   Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      // Add the 'tags' column to the 'tasks' table
-      await db.execute('ALTER TABLE tasks ADD COLUMN tags TEXT');
-    }
-    if (oldVersion < 3) {
+    if (oldVersion < 5) {
       // Add the new columns to the 'habits' table
-      await _addColumnIfNotExists(db, 'habits', 'icon', 'INTEGER');
-      await _addColumnIfNotExists(db, 'habits', 'color', 'INTEGER');
-      await _addColumnIfNotExists(db, 'habits', 'category', 'TEXT');
-      await _addColumnIfNotExists(db, 'habits', 'completionStatus', 'TEXT');
-      await _addColumnIfNotExists(db, 'habits', 'createdAt', 'TEXT');
-      await _addColumnIfNotExists(db, 'habits', 'notes', 'TEXT');
-      await _addColumnIfNotExists(db, 'habits', 'reminderTime', 'TEXT');
+      await _addColumnIfNotExists(db, 'habits', 'isCompletedToday', 'INTEGER');
+      await _addColumnIfNotExists(db, 'habits', 'lastCompletionTime', 'TEXT');
+      await _addColumnIfNotExists(db, 'habits', 'nextDueTime', 'TEXT');
     }
-    if (oldVersion < 4) { // Increase the version number
-      // Add the new columns for frequency and customDays
-      await _addColumnIfNotExists(db, 'habits', 'frequency', 'INTEGER');
-      await _addColumnIfNotExists(db, 'habits', 'customDays', 'TEXT');
+    if (oldVersion < 6) {
+      // Create the streaks table if it doesn't exist
+      await db.execute('''
+      CREATE TABLE IF NOT EXISTS streaks(
+        date TEXT PRIMARY KEY,
+        streak_count INTEGER NOT NULL
+      )
+      ''');
     }
   }
 
@@ -146,12 +152,21 @@ class DatabaseService {
 
   Future<int> updateHabit(Habit habit) async {
     final db = await instance.database;
-    return await db.update('habits', _habitToMap(habit), where: 'id = ?', whereArgs: [habit.id]);
+    return await db.update(
+      'habits',
+      _habitToMap(habit),
+      where: 'id = ?',
+      whereArgs: [habit.id],
+    );
   }
 
   Future<int> deleteHabit(String id) async {
     final db = await instance.database;
-    return await db.delete('habits', where: 'id = ?', whereArgs: [id]);
+    return await db.delete(
+      'habits',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
   }
 
   // Helper methods for Task
@@ -196,6 +211,9 @@ class DatabaseService {
       'notes': habit.notes.join('|'),
       'reminderTime': habit.reminderTime != null ? '${habit.reminderTime!.hour.toString().padLeft(2, '0')}:${habit.reminderTime!.minute.toString().padLeft(2, '0')}' : null,
       'customDays': habit.customDays?.join(','),
+      'isCompletedToday': habit.isCompletedToday ? 1 : 0,
+      'lastCompletionTime': habit.lastCompletionTime?.toIso8601String(),
+      'nextDueTime': habit.nextDueTime?.toIso8601String(),
     };
   }
 
@@ -217,12 +235,15 @@ class DatabaseService {
       icon: IconData(map['icon'], fontFamily: 'MaterialIcons'),
       color: Color(map['color']),
       category: map['category'],
-      frequency: map['frequency'] != null ? HabitFrequency.values[map['frequency']] : HabitFrequency.daily,
+      frequency: HabitFrequency.values[map['frequency']],
       completionStatus: (map['completionStatus'] as String).split(',').map((e) => e == 'true').toList(),
       createdAt: DateTime.parse(map['createdAt']),
       notes: (map['notes'] as String).split('|'),
       reminderTime: reminderTime,
       customDays: map['customDays'] != null ? (map['customDays'] as String).split(',').map((e) => int.parse(e)).toList() : null,
+      isCompletedToday: map['isCompletedToday'] == 1,
+      lastCompletionTime: map['lastCompletionTime'] != null ? DateTime.parse(map['lastCompletionTime']) : null,
+      nextDueTime: map['nextDueTime'] != null ? DateTime.parse(map['nextDueTime']) : null,
     );
   }
 
@@ -245,5 +266,27 @@ class DatabaseService {
       whereArgs: ['%$query%', '%$query%', '%$query%'],
     );
     return result.map((map) => _taskFromMap(map)).toList();
+  }
+
+  Future<void> updateStreakCount(int streakCount, DateTime date) async {
+    final db = await instance.database;
+    await db.insert(
+      'streaks',
+      {'date': date.toIso8601String(), 'streak_count': streakCount},
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  Future<int> getStreakCount() async {
+    final db = await instance.database;
+    final result = await db.query(
+      'streaks',
+      orderBy: 'date DESC',
+      limit: 1,
+    );
+    if (result.isNotEmpty) {
+      return result.first['streak_count'] as int;
+    }
+    return 0;
   }
 }

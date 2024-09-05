@@ -5,97 +5,37 @@ enum HabitFrequency { daily, weekly, monthly, custom }
 class Habit {
   final String id;
   final String title;
-  String? description;
+  final String description;
   final IconData icon;
   final Color color;
-  final String category; // Add this line
+  final String category;
+  final HabitFrequency frequency;
   final List<bool> completionStatus;
   final DateTime createdAt;
-  List<String> notes;
-  TimeOfDay? reminderTime;
-  final HabitFrequency frequency;
-  final List<int>? customDays; // For custom frequency, store days of the week (1-7)
+  final List<String> notes;
+  final TimeOfDay? reminderTime;
+  final List<int>? customDays;
+  bool isCompletedToday;
+  DateTime? lastCompletionTime;
+  DateTime? nextDueTime;
 
   Habit({
     required this.id,
     required this.title,
-    this.description,
+    required this.description,
     required this.icon,
     required this.color,
-    required this.category, // Add this line
+    required this.category,
+    required this.frequency,
     required this.completionStatus,
     required this.createdAt,
     this.notes = const [],
     this.reminderTime,
-    required this.frequency,
     this.customDays,
+    this.isCompletedToday = false,
+    this.lastCompletionTime,
+    this.nextDueTime,
   });
-
-  int get streak {
-    int currentStreak = 0;
-    for (int i = completionStatus.length - 1; i >= 0; i--) {
-      if (completionStatus[i]) {
-        currentStreak++;
-      } else {
-        break;
-      }
-    }
-    return currentStreak;
-  }
-
-  double get completionRate {
-    if (completionStatus.isEmpty) return 0;
-    return completionStatus.where((status) => status).length / completionStatus.length;
-  }
-
-  // Update toJson method
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'icon': icon.codePoint,
-      'color': color.value,
-      'category': category, // Add this line
-      'completionStatus': completionStatus,
-      'createdAt': createdAt.toIso8601String(),
-      'notes': notes,
-      'reminderTime': reminderTime != null ? '${reminderTime!.hour}:${reminderTime!.minute}' : null,
-      'frequency': frequency.index,
-      'customDays': customDays,
-    };
-  }
-
-  // Update fromJson method
-  factory Habit.fromJson(Map<String, dynamic> json) {
-    return Habit(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
-      color: Color(json['color']),
-      category: json['category'], // Add this line
-      completionStatus: List<bool>.from(json['completionStatus']),
-      createdAt: DateTime.parse(json['createdAt']),
-      notes: List<String>.from(json['notes']),
-      reminderTime: json['reminderTime'] != null ? _parseTimeOfDay(json['reminderTime']) : null,
-      frequency: HabitFrequency.values[json['frequency']],
-      customDays: json['customDays'] != null ? List<int>.from(json['customDays']) : null,
-    );
-  }
-
-  static TimeOfDay _parseTimeOfDay(String time) {
-    final parts = time.split(':');
-    return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
-  }
-
-  bool isCompletedOnDay(DateTime day) {
-    final daysSinceCreation = day.difference(createdAt).inDays;
-    if (daysSinceCreation < 0 || daysSinceCreation >= completionStatus.length) {
-      return false;
-    }
-    return completionStatus[daysSinceCreation];
-  }
 
   bool shouldCompleteToday() {
     final now = DateTime.now();
@@ -110,4 +50,103 @@ class Habit {
         return customDays?.contains(now.weekday) ?? false;
     }
   }
+
+  bool shouldCompleteOnDay(DateTime date) {
+    switch (frequency) {
+      case HabitFrequency.daily:
+        return true;
+      case HabitFrequency.weekly:
+        return date.weekday == DateTime.monday;
+      case HabitFrequency.monthly:
+        return date.day == 1;
+      case HabitFrequency.custom:
+        return customDays?.contains(date.weekday) ?? false;
+    }
+  }
+
+  bool isCompletedOnDay(DateTime date) {
+    final index = date.difference(createdAt).inDays;
+    if (index < 0 || index >= completionStatus.length) {
+      return false;
+    }
+    return completionStatus[index];
+  }
+
+  void completeHabit() {
+    isCompletedToday = true;
+    lastCompletionTime = DateTime.now();
+    nextDueTime = calculateNextDueTime();
+  }
+
+  void uncompleteHabit() {
+    isCompletedToday = false;
+    lastCompletionTime = null;
+    nextDueTime = null;
+  }
+
+  DateTime calculateNextDueTime() {
+    final now = DateTime.now();
+    switch (frequency) {
+      case HabitFrequency.daily:
+        return DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
+      case HabitFrequency.weekly:
+        return DateTime(now.year, now.month, now.day).add(const Duration(days: 7));
+      case HabitFrequency.monthly:
+        return DateTime(now.year, now.month + 1, now.day);
+      case HabitFrequency.custom:
+        if (customDays != null && customDays!.isNotEmpty) {
+          int nextDay = customDays!.firstWhere((day) => day > now.weekday, orElse: () => customDays!.first);
+          return DateTime(now.year, now.month, now.day).add(Duration(days: (nextDay - now.weekday + 7) % 7));
+        }
+        return now;
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'icon': icon.codePoint,
+      'color': color.value,
+      'category': category,
+      'frequency': frequency.index,
+      'completionStatus': completionStatus.map((e) => e ? 1 : 0).toList(),
+      'createdAt': createdAt.toIso8601String(),
+      'notes': notes,
+      'reminderTime': reminderTime != null ? '${reminderTime!.hour.toString().padLeft(2, '0')}:${reminderTime!.minute.toString().padLeft(2, '0')}' : null,
+      'customDays': customDays,
+      'isCompletedToday': isCompletedToday ? 1 : 0,
+      'lastCompletionTime': lastCompletionTime?.toIso8601String(),
+      'nextDueTime': nextDueTime?.toIso8601String(),
+    };
+  }
+
+  factory Habit.fromJson(Map<String, dynamic> json) {
+    return Habit(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
+      color: Color(json['color']),
+      category: json['category'],
+      frequency: HabitFrequency.values[json['frequency']],
+      completionStatus: (json['completionStatus'] as List).map((e) => e == 1).toList(),
+      createdAt: DateTime.parse(json['createdAt']),
+      notes: List<String>.from(json['notes']),
+      reminderTime: json['reminderTime'] != null
+          ? TimeOfDay.fromDateTime(DateTime.parse(json['reminderTime']))
+          : null,
+      customDays: json['customDays'] != null ? List<int>.from(json['customDays']) : null,
+      isCompletedToday: json['isCompletedToday'] == 1,
+      lastCompletionTime: json['lastCompletionTime'] != null ? DateTime.parse(json['lastCompletionTime']) : null,
+      nextDueTime: json['nextDueTime'] != null ? DateTime.parse(json['nextDueTime']) : null,
+    );
+  }
+
+  // Remove this line
+  // get streak => null;
 }
+
+// Define a global key for navigator
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
