@@ -4,6 +4,7 @@
         "cupertino",
         "iconpicker",
         "mynd",
-        "openmynd"
+        "openmynd",
+        "sqflite"
     ]
 }

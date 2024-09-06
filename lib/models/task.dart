@@ -7,6 +7,7 @@ class Task {
   final String category;
   final List<String> tags;
   bool isCompleted;
+  DateTime? completedDate; // New field
 
   Task({
     required this.id,
@@ -17,6 +18,7 @@ class Task {
     required this.category,
     this.tags = const [],
     this.isCompleted = false,
+    this.completedDate, // New field
   });
 
   // Add these methods for JSON serialization/deserialization
@@ -30,6 +32,7 @@ class Task {
       'category': category,
       'tags': tags,
       'isCompleted': isCompleted,
+      'completedDate': completedDate?.toIso8601String(), // New field
     };
   }
 
@@ -43,6 +46,7 @@ class Task {
       category: json['category'],
       tags: List<String>.from(json['tags'] ?? []),
       isCompleted: json['isCompleted'] ?? false,
+      completedDate: json['completedDate'] != null ? DateTime.parse(json['completedDate']) : null, // New field
     );
   }
 }

@@ -59,122 +59,148 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
       appBar: AppBar(
         title: Text(widget.habit == null ? 'Add Habit' : 'Edit Habit'),
       ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          padding: const EdgeInsets.all(16.0),
-          children: [
-            TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(labelText: 'Title'),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please enter a title';
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(labelText: 'Description'),
-            ),
-            DropdownButtonFormField<String>(
-              value: _selectedCategory,
-              decoration: const InputDecoration(labelText: 'Category'),
-              items: _categories.map((String category) {
-                return DropdownMenuItem<String>(
-                  value: category,
-                  child: Text(category),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _selectedCategory = newValue!;
-                });
-              },
-            ),
-            if (_selectedCategory == 'Custom')
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
               TextFormField(
-                controller: _customCategoryController,
-                decoration: const InputDecoration(labelText: 'Custom Category'),
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
-                  if (_selectedCategory == 'Custom' && (value == null || value.isEmpty)) {
-                    return 'Please enter a custom category';
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a title';
                   }
                   return null;
                 },
               ),
-            DropdownButtonFormField<HabitFrequency>(
-              value: _selectedFrequency,
-              decoration: const InputDecoration(labelText: 'Frequency'),
-              items: HabitFrequency.values.map((HabitFrequency frequency) {
-                return DropdownMenuItem<HabitFrequency>(
-                  value: frequency,
-                  child: Text(frequency.toString().split('.').last),
-                );
-              }).toList(),
-              onChanged: (HabitFrequency? newValue) {
-                setState(() {
-                  _selectedFrequency = newValue!;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            const Text('Select an icon:', style: TextStyle(fontSize: 16)),
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: _icons.map((IconData icon) {
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _selectedIcon = icon;
-                    });
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: _selectedIcon == icon ? Colors.blue.withOpacity(0.3) : Colors.transparent,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(icon, size: 32),
-                  ),
-                );
-              }).toList(),
-            ),
-            const SizedBox(height: 16),
-            ListTile(
-              title: const Text('Color'),
-              trailing: Container(
-                width: 24,
-                height: 24,
-                color: _selectedColor,
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: _descriptionController,
+                decoration: const InputDecoration(
+                  labelText: 'Description',
+                  border: OutlineInputBorder(),
+                ),
+                maxLines: 3,
               ),
-              onTap: _pickColor,
-            ),
-            ListTile(
-              title: const Text('Reminder'),
-              subtitle: Text(_reminderTime != null 
-                ? 'Set for ${_reminderTime!.format(context)}'
-                : 'Not set'),
-              trailing: _reminderTime != null
-                ? IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: _selectedCategory,
+                decoration: const InputDecoration(
+                  labelText: 'Category',
+                  border: OutlineInputBorder(),
+                ),
+                items: _categories.map((String category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(category),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _selectedCategory = newValue!;
+                  });
+                },
+              ),
+              if (_selectedCategory == 'Custom')
+                const SizedBox(height: 16),
+              if (_selectedCategory == 'Custom')
+                TextFormField(
+                  controller: _customCategoryController,
+                  decoration: const InputDecoration(
+                    labelText: 'Custom Category',
+                    border: OutlineInputBorder(),
+                  ),
+                  validator: (value) {
+                    if (_selectedCategory == 'Custom' && (value == null || value.isEmpty)) {
+                      return 'Please enter a custom category';
+                    }
+                    return null;
+                  },
+                ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<HabitFrequency>(
+                value: _selectedFrequency,
+                decoration: const InputDecoration(
+                  labelText: 'Frequency',
+                  border: OutlineInputBorder(),
+                ),
+                items: HabitFrequency.values
+                    .where((frequency) => frequency != HabitFrequency.custom) // Exclude custom option
+                    .map((HabitFrequency frequency) {
+                  return DropdownMenuItem<HabitFrequency>(
+                    value: frequency,
+                    child: Text(frequency.toString().split('.').last),
+                  );
+                }).toList(),
+                onChanged: (HabitFrequency? newValue) {
+                  setState(() {
+                    _selectedFrequency = newValue!;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              const Text('Select an icon:', style: TextStyle(fontSize: 16)),
+              Wrap(
+                spacing: 16,
+                runSpacing: 16,
+                children: _icons.map((IconData icon) {
+                  return GestureDetector(
+                    onTap: () {
                       setState(() {
-                        _reminderTime = null;
+                        _selectedIcon = icon;
                       });
                     },
-                  )
-                : null,
-              onTap: _pickReminderTime,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: _saveHabit,
-              child: Text(widget.habit == null ? 'Add Habit' : 'Update Habit'),
-            ),
-          ],
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: _selectedIcon == icon ? Colors.blue.withOpacity(0.3) : Colors.transparent,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(icon, size: 32),
+                    ),
+                  );
+                }).toList(),
+              ),
+              const SizedBox(height: 16),
+              ListTile(
+                title: const Text('Color'),
+                trailing: Container(
+                  width: 24,
+                  height: 24,
+                  color: _selectedColor,
+                ),
+                onTap: _pickColor,
+              ),
+              ListTile(
+                title: const Text('Reminder'),
+                subtitle: Text(_reminderTime != null 
+                  ? 'Set for ${_reminderTime!.format(context)}'
+                  : 'Not set'),
+                trailing: _reminderTime != null
+                  ? IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          _reminderTime = null;
+                        });
+                      },
+                    )
+                  : null,
+                onTap: _pickReminderTime,
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: _saveHabit,
+                child: Text(widget.habit == null ? 'Add Habit' : 'Update Habit'),
+              ),
+            ],
+          ),
         ),
       ),
     );

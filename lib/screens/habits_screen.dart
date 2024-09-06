@@ -57,9 +57,23 @@ class HabitsScreenState extends State<HabitsScreen> {
 
   Future<void> _loadHabits() async {
     final habits = await _databaseService.readAllHabits();
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
     setState(() {
-      _habits = habits;
+      _habits = habits.map((habit) {
+        if (habit.lastCompletionTime == null || habit.lastCompletionTime!.isBefore(today)) {
+          habit.isCompletedToday = false;
+        }
+        return habit;
+      }).toList();
     });
+
+    // Save the updated habits to the database
+    for (final habit in _habits) {
+      await _databaseService.updateHabit(habit);
+    }
+
     await _updateStreakCount();
   }
 
@@ -83,7 +97,7 @@ class HabitsScreenState extends State<HabitsScreen> {
         !habit.shouldCompleteToday() || habit.isCompletedToday);
 
       int newStreakCount = storedStreakCount;
-      if (allCompletedToday) {
+      if (allCompletedToday && _habits.isNotEmpty) {
         if (lastStreakDate == null || DateTime.parse(lastStreakDate).isBefore(today)) {
           newStreakCount = storedStreakCount + 1;
           await prefs.setString('lastStreakDate', today.toIso8601String());
@@ -94,6 +108,9 @@ class HabitsScreenState extends State<HabitsScreen> {
           await prefs.remove('lastStreakDate');
         }
       }
+
+      // Ensure streak count does not go below zero
+      newStreakCount = newStreakCount < 0 ? 0 : newStreakCount;
 
       await prefs.setInt('streakCount', newStreakCount);
       setState(() {
@@ -107,6 +124,44 @@ class HabitsScreenState extends State<HabitsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Failed to update streak count: $e')),
       );
+    }
+  }
+
+  Future<void> _deleteHabit(Habit habit) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete Habit'),
+        content: Text('Are you sure you want to delete "${habit.title}"?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true) {
+      await _databaseService.deleteHabit(habit.id);
+      await NotificationService().cancelHabitReminder(habit.id);
+      await _loadHabits(); // Reload habits to reflect changes
+
+      // Check if there are no habits left and adjust the streak count
+      if (_habits.isEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        final storedStreakCount = prefs.getInt('streakCount') ?? 0;
+        final newStreakCount = storedStreakCount > 0 ? storedStreakCount - 1 : 0;
+        await prefs.setInt('streakCount', newStreakCount);
+        setState(() {
+          _streakCount = newStreakCount;
+        });
+        await _databaseService.updateStreakCount(newStreakCount, DateTime.now());
+      }
     }
   }
 
@@ -231,6 +286,18 @@ class HabitsScreenState extends State<HabitsScreen> {
         await NotificationService().scheduleHabitReminder(result);
       }
       await _loadHabits(); // Reload habits to reflect changes
+
+      // Ensure streak count does not go below zero if this is the first habit
+      if (_habits.length == 1) {
+        final prefs = await SharedPreferences.getInstance();
+        final storedStreakCount = prefs.getInt('streakCount') ?? 0;
+        final newStreakCount = storedStreakCount < 0 ? 0 : storedStreakCount;
+        await prefs.setInt('streakCount', newStreakCount);
+        setState(() {
+          _streakCount = newStreakCount;
+        });
+        await _databaseService.updateStreakCount(newStreakCount, DateTime.now());
+      }
     }
   }
 
@@ -246,32 +313,6 @@ class HabitsScreenState extends State<HabitsScreen> {
       } else {
         await NotificationService().cancelHabitReminder(result.id);
       }
-      await _loadHabits(); // Reload habits to reflect changes
-    }
-  }
-
-  Future<void> _deleteHabit(Habit habit) async {
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Habit'),
-        content: Text('Are you sure you want to delete "${habit.title}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed == true) {
-      await _databaseService.deleteHabit(habit.id);
-      await NotificationService().cancelHabitReminder(habit.id);
       await _loadHabits(); // Reload habits to reflect changes
     }
   }

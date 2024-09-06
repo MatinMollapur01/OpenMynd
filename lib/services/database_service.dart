@@ -22,7 +22,7 @@ class DatabaseService {
 
     return await openDatabase(
       path, 
-      version: 6, // Increase this to 6
+      version: 7, // Increase this to 7
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -38,7 +38,8 @@ class DatabaseService {
       priority TEXT NOT NULL,
       category TEXT NOT NULL,
       tags TEXT,
-      isCompleted INTEGER NOT NULL
+      isCompleted INTEGER NOT NULL,
+      completedDate TEXT // New field
     )
     ''');
 
@@ -86,6 +87,10 @@ class DatabaseService {
       )
       ''');
     }
+    if (oldVersion < 7) {
+      // Add the new column to the 'tasks' table
+      await _addColumnIfNotExists(db, 'tasks', 'completedDate', 'TEXT');
+    }
   }
 
   Future<void> _addColumnIfNotExists(Database db, String tableName, String columnName, String columnType) async {
@@ -115,7 +120,13 @@ class DatabaseService {
 
   Future<List<Task>> readAllTasks() async {
     final db = await instance.database;
-    final result = await db.query('tasks');
+    final result = await db.query('tasks', where: 'isCompleted = ?', whereArgs: [0]);
+    return result.map((map) => _taskFromMap(map)).toList();
+  }
+
+  Future<List<Task>> readCompletedTasks() async {
+    final db = await instance.database;
+    final result = await db.query('tasks', where: 'isCompleted = ?', whereArgs: [1]);
     return result.map((map) => _taskFromMap(map)).toList();
   }
 
@@ -180,6 +191,7 @@ class DatabaseService {
       'category': task.category,
       'tags': task.tags.join(','),
       'isCompleted': task.isCompleted ? 1 : 0,
+      'completedDate': task.completedDate?.toIso8601String(), // New field
     };
   }
 
@@ -193,6 +205,7 @@ class DatabaseService {
       category: map['category'],
       tags: (map['tags'] as String?)?.split(',') ?? [],
       isCompleted: map['isCompleted'] == 1,
+      completedDate: map['completedDate'] != null ? DateTime.parse(map['completedDate']) : null, // New field
     );
   }
 

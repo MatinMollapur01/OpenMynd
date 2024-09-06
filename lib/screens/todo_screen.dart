@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:openmynd/models/habit.dart';
 import '../models/task.dart';
 import 'task_detail_screen.dart';
+import 'completed_tasks_screen.dart';
 import '../services/notification_service.dart';
 import '../services/database_service.dart';
 import 'package:logger/logger.dart';
@@ -67,6 +68,24 @@ class TodoScreenState extends State<TodoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('To-Do List'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.check),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CompletedTasksScreen(
+                    onTaskRestored: _loadTasks,
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
@@ -87,16 +106,19 @@ class TodoScreenState extends State<TodoScreen> {
               itemCount: _filteredTasks.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  leading: Checkbox(
+                    value: _filteredTasks[index].isCompleted,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        _filteredTasks[index].isCompleted = value!;
+                      });
+                      _completeTask(_filteredTasks[index]);
+                    },
+                  ),
                   title: Text(_filteredTasks[index].title),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(_filteredTasks[index].description ?? ''),
-                      Wrap(
-                        spacing: 4,
-                        children: _filteredTasks[index].tags.map((tag) => Chip(label: Text(tag))).toList(),
-                      ),
-                    ],
+                  subtitle: Wrap(
+                    spacing: 4,
+                    children: _filteredTasks[index].tags.map((tag) => Chip(label: Text(tag))).toList(),
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -186,6 +208,22 @@ class TodoScreenState extends State<TodoScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to delete task: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _completeTask(Task task) async {
+    try {
+      task.isCompleted = true;
+      task.completedDate = DateTime.now(); // Set the completed date
+      await _databaseService.updateTask(task);
+      await _loadTasks();
+    } catch (e) {
+      _logger.e("Error completing task: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to complete task: $e')),
         );
       }
     }

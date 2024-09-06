@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import '../models/habit.dart';
 import '../services/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +12,7 @@ class StreaksScreen extends StatefulWidget {
 
 class StreaksScreenState extends State<StreaksScreen> {
   int _streakCount = 0;
-  Map<DateTime, bool> _completionStatus = {};
+  List<Habit> _habits = [];
   final DatabaseService _databaseService = DatabaseService.instance;
 
   @override
@@ -34,24 +34,10 @@ class StreaksScreenState extends State<StreaksScreen> {
       final prefs = await SharedPreferences.getInstance();
       final streakCount = prefs.getInt('streakCount') ?? 0;
       final habits = await _databaseService.readAllHabits();
-      final now = DateTime.now();
-      Map<DateTime, bool> completionStatus = {};
-
-      for (int i = 0; i < 30; i++) {
-        final date = now.subtract(Duration(days: i));
-        bool allCompleted = true;
-        for (final habit in habits) {
-          if (habit.shouldCompleteOnDay(date) && !habit.isCompletedOnDay(date)) {
-            allCompleted = false;
-            break;
-          }
-        }
-        completionStatus[date] = allCompleted;
-      }
 
       setState(() {
         _streakCount = streakCount;
-        _completionStatus = completionStatus;
+        _habits = habits;
       });
     } catch (e) {
       print("Error loading streak data: $e");
@@ -84,44 +70,7 @@ class StreaksScreenState extends State<StreaksScreen> {
                 style: TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 20),
-              TableCalendar(
-                firstDay: DateTime.now().subtract(const Duration(days: 365)),
-                lastDay: DateTime.now(),
-                focusedDay: DateTime.now(),
-                calendarFormat: CalendarFormat.month,
-                calendarStyle: const CalendarStyle(
-                  weekendTextStyle: TextStyle(color: Colors.red),
-                  holidayTextStyle: TextStyle(color: Colors.red),
-                  todayDecoration: BoxDecoration(
-                    color: Colors.blue,
-                    shape: BoxShape.circle,
-                  ),
-                  markerDecoration: BoxDecoration(
-                    color: Colors.green,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                calendarBuilders: CalendarBuilders(
-                  defaultBuilder: (context, date, _) {
-                    return Container(
-                      margin: const EdgeInsets.all(4.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _getDateColor(date),
-                      ),
-                      child: Text(
-                        '${date.day}',
-                        style: TextStyle(
-                          color: _getDateColor(date) != Colors.transparent
-                              ? Colors.white
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+              ..._habits.map((habit) => _buildHabitCard(habit)).toList(),
             ],
           ),
         ),
@@ -129,10 +78,51 @@ class StreaksScreenState extends State<StreaksScreen> {
     );
   }
 
-  Color _getDateColor(DateTime date) {
-    if (_completionStatus.containsKey(date)) {
-      return _completionStatus[date]! ? Colors.green : Colors.red;
+  Widget _buildHabitCard(Habit habit) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final completionDates = <DateTime, bool>{};
+
+    for (int i = 0; i <= today.difference(habit.createdAt).inDays; i++) {
+      final date = habit.createdAt.add(Duration(days: i));
+      completionDates[date] = habit.isCompletedOnDay(date);
     }
-    return Colors.transparent;
+
+    return Card(
+      margin: const EdgeInsets.all(8.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: habit.color,
+                  child: Icon(habit.icon, color: Colors.white),
+                ),
+                const SizedBox(width: 8),
+                Text(habit.title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              ],
+            ),
+            const SizedBox(height: 8),
+            ...completionDates.entries.map((entry) {
+              final date = entry.key;
+              final isCompleted = entry.value;
+              return Row(
+                children: [
+                  Text('${date.month}/${date.day}/${date.year}'),
+                  const SizedBox(width: 8),
+                  Icon(
+                    isCompleted ? Icons.check_circle : Icons.cancel,
+                    color: isCompleted ? Colors.green : Colors.red,
+                  ),
+                ],
+              );
+            }).toList(),
+          ],
+        ),
+      ),
+    );
   }
 }

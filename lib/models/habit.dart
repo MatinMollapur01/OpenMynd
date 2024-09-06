@@ -76,12 +76,20 @@ class Habit {
     isCompletedToday = true;
     lastCompletionTime = DateTime.now();
     nextDueTime = calculateNextDueTime();
+    final index = DateTime.now().difference(createdAt).inDays;
+    if (index >= 0 && index < completionStatus.length) {
+      completionStatus[index] = true;
+    }
   }
 
   void uncompleteHabit() {
     isCompletedToday = false;
     lastCompletionTime = null;
     nextDueTime = null;
+    final index = DateTime.now().difference(createdAt).inDays;
+    if (index >= 0 && index < completionStatus.length) {
+      completionStatus[index] = false;
+    }
   }
 
   DateTime calculateNextDueTime() {
@@ -143,9 +151,6 @@ class Habit {
       nextDueTime: json['nextDueTime'] != null ? DateTime.parse(json['nextDueTime']) : null,
     );
   }
-
-  // Remove this line
-  // get streak => null;
 }
 
 // Define a global key for navigator
