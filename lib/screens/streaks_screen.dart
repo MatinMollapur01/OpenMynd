@@ -86,9 +86,9 @@ class StreaksScreenState extends State<StreaksScreen> {
     final today = DateTime(now.year, now.month, now.day);
     final completionDates = <DateTime, bool>{};
 
-    for (int i = 0; i <= today.difference(habit.createdAt).inDays; i++) {
+    for (int i = 0; i < habit.completionStatus.length; i++) {
       final date = habit.createdAt.add(Duration(days: i));
-      completionDates[date] = habit.isCompletedOnDay(date);
+      completionDates[date] = habit.completionStatus[i];
     }
 
     return Card(

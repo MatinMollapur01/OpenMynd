@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/habit.dart';
-import '../services/notification_service.dart';
 import 'package:openmynd/l10n/app_localizations.dart';
 
 class AddEditHabitScreen extends StatefulWidget {
@@ -22,7 +21,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
   HabitFrequency _selectedFrequency = HabitFrequency.daily;
   IconData _selectedIcon = Icons.star;
   Color _selectedColor = Colors.blue;
-  TimeOfDay? _reminderTime;
 
   final List<String> _categories = ['Personal', 'Work', 'Health', 'Fitness', 'Education', 'Custom'];
   
@@ -50,7 +48,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
       _selectedFrequency = widget.habit!.frequency;
       _selectedIcon = widget.habit!.icon;
       _selectedColor = widget.habit!.color;
-      _reminderTime = widget.habit!.reminderTime;
     }
   }
 
@@ -177,23 +174,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 ),
                 onTap: _pickColor,
               ),
-              ListTile(
-                title: Text(AppLocalizations.of(context).reminder),
-                subtitle: Text(_reminderTime != null 
-                  ? 'Set for ${_reminderTime!.format(context)}'
-                  : 'Not set'),
-                trailing: _reminderTime != null
-                  ? IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          _reminderTime = null;
-                        });
-                      },
-                    )
-                  : null,
-                onTap: _pickReminderTime,
-              ),
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _saveHabit,
@@ -237,18 +217,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
     );
   }
 
-  void _pickReminderTime() async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: _reminderTime ?? TimeOfDay.now(),
-    );
-    if (picked != null) {
-      setState(() {
-        _reminderTime = picked;
-      });
-    }
-  }
-
   void _saveHabit() {
     if (_formKey.currentState!.validate()) {
       final habit = Habit(
@@ -259,7 +227,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
         frequency: _selectedFrequency,
         icon: _selectedIcon,
         color: _selectedColor,
-        reminderTime: _reminderTime,
         createdAt: widget.habit?.createdAt ?? DateTime.now(),
         completionStatus: widget.habit?.completionStatus ?? [],
         notes: widget.habit?.notes ?? [],

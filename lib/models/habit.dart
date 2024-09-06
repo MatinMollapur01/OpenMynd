@@ -124,6 +124,9 @@ class Habit {
     final index = DateTime.now().difference(createdAt).inDays;
     if (index >= 0 && index < completionStatus.length) {
       completionStatus[index] = true;
+    } else if (index >= completionStatus.length) {
+      completionStatus.addAll(List.generate(index - completionStatus.length + 1, (_) => false));
+      completionStatus[index] = true;
     }
   }
 
