@@ -110,6 +110,12 @@ class Habit {
     }
   }
 
+  bool isOverdue() {
+    final now = DateTime.now();
+    if (nextDueTime == null) return false;
+    return now.isAfter(nextDueTime!);
+  }
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,

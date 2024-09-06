@@ -27,6 +27,7 @@ class HabitsScreenState extends State<HabitsScreen> {
     _loadHabits();
     _loadStreakCount();
     _startTimer();
+    _startBackgroundCheck();
   }
 
   Future<void> _initializeStreakCount() async {
@@ -52,6 +53,22 @@ class HabitsScreenState extends State<HabitsScreen> {
       setState(() {
         // This will trigger a rebuild of the UI every second
       });
+    });
+  }
+
+  void _startBackgroundCheck() {
+    Timer.periodic(const Duration(minutes: 1), (timer) async {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      for (final habit in _habits) {
+        if (habit.isOverdue()) {
+          habit.isCompletedToday = false;
+          habit.lastCompletionTime = null;
+          habit.nextDueTime = habit.calculateNextDueTime();
+          await _databaseService.updateHabit(habit);
+        }
+      }
+      setState(() {});
     });
   }
 
