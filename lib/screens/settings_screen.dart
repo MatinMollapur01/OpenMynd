@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SettingsScreen extends StatefulWidget {
   final Function(bool) onThemeChanged;
 
-  const SettingsScreen({Key? key, required this.onThemeChanged}) : super(key: key);
+  const SettingsScreen({super.key, required this.onThemeChanged});
 
   @override
   SettingsScreenState createState() => SettingsScreenState();

@@ -4,7 +4,7 @@ import '../services/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StreaksScreen extends StatefulWidget {
-  const StreaksScreen({Key? key}) : super(key: key);
+  const StreaksScreen({super.key});
 
   @override
   StreaksScreenState createState() => StreaksScreenState();
@@ -74,7 +74,7 @@ class StreaksScreenState extends State<StreaksScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              Icon(Icons.local_fire_department, size: 80, color: Colors.orange),
+              const Icon(Icons.local_fire_department, size: 80, color: Colors.orange),
               Text(
                 '$_streakCount',
                 style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
@@ -89,14 +89,14 @@ class StreaksScreenState extends State<StreaksScreen> {
                 lastDay: DateTime.now(),
                 focusedDay: DateTime.now(),
                 calendarFormat: CalendarFormat.month,
-                calendarStyle: CalendarStyle(
-                  weekendTextStyle: const TextStyle(color: Colors.red),
-                  holidayTextStyle: const TextStyle(color: Colors.red),
+                calendarStyle: const CalendarStyle(
+                  weekendTextStyle: TextStyle(color: Colors.red),
+                  holidayTextStyle: TextStyle(color: Colors.red),
                   todayDecoration: BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
                   ),
-                  markerDecoration: const BoxDecoration(
+                  markerDecoration: BoxDecoration(
                     color: Colors.green,
                     shape: BoxShape.circle,
                   ),
