@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:openmynd/l10n/app_localizations.dart';
 import 'package:openmynd/models/habit.dart';
-import '../models/task.dart';
+import 'package:openmynd/models/task.dart';
 import 'task_detail_screen.dart';
 import 'completed_tasks_screen.dart';
 import '../services/notification_service.dart';
@@ -48,7 +49,7 @@ class TodoScreenState extends State<TodoScreen> {
       _logger.e("Error loading tasks: $e");
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to load tasks: $e')),
+          SnackBar(content: Text(AppLocalizations.of(context).noTasks)),
         );
       }
     }
@@ -67,9 +68,10 @@ class TodoScreenState extends State<TodoScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('To-Do List'),
+        title: Text(localizations.todo),
         actions: [
           IconButton(
             icon: const Icon(Icons.check),
@@ -93,7 +95,7 @@ class TodoScreenState extends State<TodoScreen> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                labelText: 'Search tasks',
+                labelText: AppLocalizations.of(context).search,
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -116,9 +118,15 @@ class TodoScreenState extends State<TodoScreen> {
                     },
                   ),
                   title: Text(_filteredTasks[index].title),
-                  subtitle: Wrap(
-                    spacing: 4,
-                    children: _filteredTasks[index].tags.map((tag) => Chip(label: Text(tag))).toList(),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(_getLocalizedCategory(_filteredTasks[index].category)),
+                      Wrap(
+                        spacing: 4,
+                        children: _filteredTasks[index].tags.map((tag) => Chip(label: Text(tag))).toList(),
+                      ),
+                    ],
                   ),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -143,8 +151,25 @@ class TodoScreenState extends State<TodoScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _addTask,
         child: const Icon(Icons.add),
+        tooltip: localizations.addTask,
       ),
     );
+  }
+
+  String _getLocalizedCategory(String category) {
+    final localizations = AppLocalizations.of(context);
+    switch (category) {
+      case 'default':
+        return localizations.defaultCategory;
+      case 'work':
+        return localizations.workCategory;
+      case 'personal':
+        return localizations.personalCategory;
+      case 'health':
+        return localizations.healthCategory;
+      default:
+        return category;
+    }
   }
 
   Future<void> _addTask() async {
@@ -155,11 +180,9 @@ class TodoScreenState extends State<TodoScreen> {
     if (result != null && result is Task) {
       try {
         await _databaseService.createTask(result);
-        if (result.dueDate != null) {
-          await _notificationService.scheduleHabitReminder(result as Habit);
-        }
         _logger.i("Task added: ${result.title}");
-        await _loadTasks();
+        await _loadTasks(); // This will refresh the task list
+        setState(() {}); // Trigger a rebuild of the widget
       } catch (e) {
         _logger.e("Error adding task: $e");
         if (mounted) {

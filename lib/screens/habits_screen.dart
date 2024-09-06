@@ -6,6 +6,7 @@ import 'add_edit_habit_screen.dart';
 import 'streaks_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../services/notification_service.dart';
+import 'package:openmynd/l10n/app_localizations.dart';
 
 class HabitsScreen extends StatefulWidget {
   const HabitsScreen({super.key});
@@ -73,25 +74,34 @@ class HabitsScreenState extends State<HabitsScreen> {
   }
 
   Future<void> _loadHabits() async {
-    final habits = await _databaseService.readAllHabits();
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
+    try {
+      final habits = await _databaseService.readAllHabits();
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
 
-    setState(() {
-      _habits = habits.map((habit) {
-        if (habit.lastCompletionTime == null || habit.lastCompletionTime!.isBefore(today)) {
-          habit.isCompletedToday = false;
-        }
-        return habit;
-      }).toList();
-    });
+      setState(() {
+        _habits = habits.map((habit) {
+          if (habit.lastCompletionTime == null || habit.lastCompletionTime!.isBefore(today)) {
+            habit.isCompletedToday = false;
+          }
+          return habit;
+        }).toList();
+      });
 
-    // Save the updated habits to the database
-    for (final habit in _habits) {
-      await _databaseService.updateHabit(habit);
+      // Save the updated habits to the database
+      for (final habit in _habits) {
+        await _databaseService.updateHabit(habit);
+      }
+
+      await _updateStreakCount();
+    } catch (e, stackTrace) {
+      print('Error loading habits: $e');
+      print('Stack trace: $stackTrace');
+      // Handle the error, maybe show a snackbar to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load habits: $e')),
+      );
     }
-
-    await _updateStreakCount();
   }
 
   Future<void> _loadStreakCount() async {
@@ -148,16 +158,16 @@ class HabitsScreenState extends State<HabitsScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Habit'),
-        content: Text('Are you sure you want to delete "${habit.title}"?'),
+        title: Text(AppLocalizations.of(context).deleteHabit),
+        content: Text('${AppLocalizations.of(context).confirmDelete} "${habit.title}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(AppLocalizations.of(context).cancel),
           ),
           TextButton(
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(AppLocalizations.of(context).delete),
           ),
         ],
       ),
@@ -184,9 +194,11 @@ class HabitsScreenState extends State<HabitsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Habits'),
+        title: Text(localizations.habits),
         actions: [
           InkWell(
             onTap: () {
@@ -217,12 +229,15 @@ class HabitsScreenState extends State<HabitsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addHabit,
+        tooltip: localizations.addHabit,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildHabitTile(Habit habit) {
+    final localizations = AppLocalizations.of(context);
+
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: habit.color,
@@ -232,9 +247,9 @@ class HabitsScreenState extends State<HabitsScreen> {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(habit.category),
+          Text(_getLocalizedCategory(habit.category)),
           if (habit.nextDueTime != null)
-            Text('Next due: ${_getTimeUntilNextDue(habit.nextDueTime!)}'),
+            Text('${localizations.nextDue}: ${_getTimeUntilNextDue(habit.nextDueTime!)}'),
         ],
       ),
       trailing: Row(
@@ -256,6 +271,24 @@ class HabitsScreenState extends State<HabitsScreen> {
       ),
       onTap: () => _editHabit(habit),
     );
+  }
+
+  String _getLocalizedCategory(String category) {
+    final localizations = AppLocalizations.of(context);
+    switch (category) {
+      case 'Personal':
+        return localizations.personalCategory;
+      case 'Work':
+        return localizations.workCategory;
+      case 'Health':
+        return localizations.healthCategory;
+      case 'Fitness':
+        return localizations.fitnessCategory;
+      case 'Education':
+        return localizations.educationCategory;
+      default:
+        return category;
+    }
   }
 
   String _getTimeUntilNextDue(DateTime nextDueTime) {

@@ -1,0 +1,231 @@
+{
+  "@@locale": "tr",
+  "appTitle": "OpenMynd",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "Ayarlar",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  "darkMode": "Karanlık Mod",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "language": "Dil",
+  "@language": {
+    "description": "Language setting"
+  },
+  "selectLanguage": "Dil Seçin",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "english": "İngilizce",
+  "@english": {
+    "description": "English language option"
+  },
+  "persian": "Farsça",
+  "@persian": {
+    "description": "Persian language option"
+  },
+  "turkish": "Türkçe",
+  "@turkish": {
+    "description": "Turkish language option"
+  },
+  "azerbaijani": "Azerice",
+  "@azerbaijani": {
+    "description": "Azerbaijani language option"
+  },
+  "arabic": "Arapça",
+  "@arabic": {
+    "description": "Arabic language option"
+  },
+  "russian": "Rusça",
+  "@russian": {
+    "description": "Russian language option"
+  },
+  "chinese": "Çince",
+  "@chinese": {
+    "description": "Chinese language option"
+  },
+  "habits": "Alışkanlıklar",
+  "@habits": {
+    "description": "Habits section"
+  },
+  "addHabit": "Alışkanlık Ekle",
+  "@addHabit": {
+    "description": "Add habit action"
+  },
+  "editHabit": "Alışkanlığı Düzenle",
+  "@editHabit": {
+    "description": "Edit habit action"
+  },
+  "deleteHabit": "Alışkanlığı Sil",
+  "@deleteHabit": {
+    "description": "Delete habit action"
+  },
+  "confirmDelete": "Silmek istediğinizden emin misiniz",
+  "@confirmDelete": {
+    "description": "Confirmation prompt for deletion"
+  },
+  "cancel": "İptal",
+  "@cancel": {
+    "description": "Cancel action"
+  },
+  "delete": "Sil",
+  "@delete": {
+    "description": "Delete action"
+  },
+  "title": "Başlık",
+  "@title": {
+    "description": "Title field"
+  },
+  "description": "Açıklama",
+  "@description": {
+    "description": "Description field"
+  },
+  "category": "Kategori",
+  "@category": {
+    "description": "Category field"
+  },
+  "frequency": "Sıklık",
+  "@frequency": {
+    "description": "Frequency field"
+  },
+  "reminder": "Hatırlatıcı",
+  "@reminder": {
+    "description": "Reminder field"
+  },
+  "color": "Renk",
+  "@color": {
+    "description": "Color field"
+  },
+  "icon": "Simge",
+  "@icon": {
+    "description": "Icon field"
+  },
+  "save": "Kaydet",
+  "@save": {
+    "description": "Save action"
+  },
+  "streaks": "Seriler",
+  "@streaks": {
+    "description": "Streaks section"
+  },
+  "dayStreak": "Gün Serisi",
+  "@dayStreak": {
+    "description": "Day streak field"
+  },
+  "nextDue": "Sonraki vade",
+  "@nextDue": {
+    "description": "Next due date field"
+  },
+  "completed": "Tamamlandı",
+  "@completed": {
+    "description": "Completed status"
+  },
+  "todo": "Yapılacaklar",
+  "@todo": {
+    "description": "To-do section"
+  },
+  "addTask": "Görev Ekle",
+  "@addTask": {
+    "description": "Add task action"
+  },
+  "editTask": "Görevi Düzenle",
+  "@editTask": {
+    "description": "Edit task action"
+  },
+  "deleteTask": "Görevi Sil",
+  "@deleteTask": {
+    "description": "Delete task action"
+  },
+  "priority": "Öncelik",
+  "@priority": {
+    "description": "Priority field"
+  },
+  "dueDate": "Son Tarih",
+  "@dueDate": {
+    "description": "Due date field"
+  },
+  "dueTime": "Son Zaman",
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "tags": "Etiketler",
+  "@tags": {
+    "description": "Tags field"
+  },
+  "completedTasks": "Tamamlanan Görevler",
+  "@completedTasks": {
+    "description": "Completed tasks section"
+  },
+  "restore": "Geri Yükle",
+  "@restore": {
+    "description": "Restore action"
+  },
+  "search": "Ara",
+  "@search": {
+    "description": "Search action"
+  },
+  "noTasks": "Görev bulunamadı",
+  "@noTasks": {
+    "description": "No tasks found message"
+  },
+  "noHabits": "Alışkanlık bulunamadı",
+  "@noHabits": {
+    "description": "No habits found message"
+  },
+  "customCategory": "Özel Kategori",
+  "@customCategory": {
+    "description": "Özel kategori alanı için etiket"
+  },
+  "@lowPriority": {
+    "description": "Düşük öncelik ayarı için etiket"
+  },
+  "lowPriority": "Düşük",
+  "@mediumPriority": {
+    "description": "Orta öncelik ayarı için etiket"
+  },
+  "mediumPriority": "Orta",
+  "@highPriority": {
+    "description": "Yüksek öncelik ayarı için etiket"
+  },
+  "highPriority": "Yüksek",
+  "@defaultCategory": {
+    "description": "Varsayılan kategori için etiket"
+  },
+  "defaultCategory": "Varsayılan",
+  "@workCategory": {
+    "description": "İş kategorisi için etiket"
+  },
+  "workCategory": "İş",
+  "@personalCategory": {
+    "description": "Kişisel kategori için etiket"
+  },
+  "personalCategory": "Kişisel",
+  "@healthCategory": {
+    "description": "Sağlık kategorisi için etiket"
+  },
+  "healthCategory": "Sağlık",
+  "@fitnessCategory": {
+    "description": "Fitness kategorisi için etiket"
+  },
+  "fitnessCategory": "Fitness",
+  "@educationCategory": {
+    "description": "Eğitim kategorisi için etiket"
+  },
+  "educationCategory": "Eğitim",
+  "@dailyFrequency": {
+    "description": "Günlük sıklık için etiket"
+  },
+  "dailyFrequency": "Günlük",
+  "@weeklyFrequency": {
+    "description": "Haftalık sıklık için etiket"
+  },
+  "weeklyFrequency": "Haftalık",
+  "@monthlyFrequency": {
+    "description": "Aylık sıklık için etiket"
+  },
+  "monthlyFrequency": "Aylık"
+}

@@ -1,0 +1,231 @@
+{
+  "@@locale": "ar",
+  "appTitle": "أوبن مايند",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "الإعدادات",
+  "@settings": {
+    "description": "Label for settings menu"
+  },
+  "darkMode": "الوضع الداكن",
+  "@darkMode": {
+    "description": "Label for dark mode setting"
+  },
+  "language": "اللغة",
+  "@language": {
+    "description": "Label for language setting"
+  },
+  "selectLanguage": "اختر اللغة",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "english": "الإنجليزية",
+  "@english": {
+    "description": "Name of the English language"
+  },
+  "persian": "الفارسية",
+  "@persian": {
+    "description": "Name of the Persian language"
+  },
+  "turkish": "التركية",
+  "@turkish": {
+    "description": "Name of the Turkish language"
+  },
+  "azerbaijani": "الأذربيجانية",
+  "@azerbaijani": {
+    "description": "Name of the Azerbaijani language"
+  },
+  "arabic": "العربية",
+  "@arabic": {
+    "description": "Name of the Arabic language"
+  },
+  "russian": "الروسية",
+  "@russian": {
+    "description": "Name of the Russian language"
+  },
+  "chinese": "الصينية",
+  "@chinese": {
+    "description": "Name of the Chinese language"
+  },
+  "habits": "العادات",
+  "@habits": {
+    "description": "Label for habits section"
+  },
+  "addHabit": "إضافة عادة",
+  "@addHabit": {
+    "description": "Button to add a new habit"
+  },
+  "editHabit": "تعديل العادة",
+  "@editHabit": {
+    "description": "Button to edit an existing habit"
+  },
+  "deleteHabit": "حذف العادة",
+  "@deleteHabit": {
+    "description": "Button to delete a habit"
+  },
+  "confirmDelete": "هل أنت متأكد أنك تريد الحذف",
+  "@confirmDelete": {
+    "description": "Confirmation message for deletion"
+  },
+  "cancel": "إلغاء",
+  "@cancel": {
+    "description": "Button to cancel an action"
+  },
+  "delete": "حذف",
+  "@delete": {
+    "description": "Button to confirm deletion"
+  },
+  "title": "العنوان",
+  "@title": {
+    "description": "Label for title field"
+  },
+  "description": "الوصف",
+  "@description": {
+    "description": "Label for description field"
+  },
+  "category": "الفئة",
+  "@category": {
+    "description": "Label for category field"
+  },
+  "frequency": "التكرار",
+  "@frequency": {
+    "description": "Label for frequency field"
+  },
+  "reminder": "التذكير",
+  "@reminder": {
+    "description": "Label for reminder field"
+  },
+  "color": "اللون",
+  "@color": {
+    "description": "Label for color selection"
+  },
+  "icon": "الأيقونة",
+  "@icon": {
+    "description": "Label for icon selection"
+  },
+  "save": "حفظ",
+  "@save": {
+    "description": "Button to save changes"
+  },
+  "streaks": "السلاسل",
+  "@streaks": {
+    "description": "Label for streaks section"
+  },
+  "dayStreak": "سلسلة الأيام",
+  "@dayStreak": {
+    "description": "Label for day streak"
+  },
+  "nextDue": "الموعد التالي",
+  "@nextDue": {
+    "description": "Label for next due date"
+  },
+  "completed": "مكتمل",
+  "@completed": {
+    "description": "Label for completed status"
+  },
+  "todo": "قائمة المهام",
+  "@todo": {
+    "description": "Label for todo list"
+  },
+  "addTask": "إضافة مهمة",
+  "@addTask": {
+    "description": "Button to add a new task"
+  },
+  "editTask": "تعديل المهمة",
+  "@editTask": {
+    "description": "Button to edit an existing task"
+  },
+  "deleteTask": "حذف المهمة",
+  "@deleteTask": {
+    "description": "Button to delete a task"
+  },
+  "priority": "الأولوية",
+  "@priority": {
+    "description": "Label for priority field"
+  },
+  "dueDate": "تاريخ الاستحقاق",
+  "@dueDate": {
+    "description": "Label for due date field"
+  },
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "وقت الاستحقاق",
+  "tags": "العلامات",
+  "@tags": {
+    "description": "Label for tags field"
+  },
+  "completedTasks": "المهام المكتملة",
+  "@completedTasks": {
+    "description": "Label for completed tasks section"
+  },
+  "restore": "استعادة",
+  "@restore": {
+    "description": "Button to restore a deleted item"
+  },
+  "search": "بحث",
+  "@search": {
+    "description": "Label for search field"
+  },
+  "noTasks": "لم يتم العثور على مهام",
+  "@noTasks": {
+    "description": "Message shown when no tasks are found"
+  },
+  "noHabits": "لم يتم العثور على عادات",
+  "@noHabits": {
+    "description": "Message shown when no habits are found"
+  },
+  "customCategory": "فئة مخصصة",
+  "@customCategory": {
+    "description": "تسمية لحقل الفئة المخصصة"
+  },
+  "@lowPriority": {
+    "description": "تسمية لإعداد الأولوية المنخفضة"
+  },
+  "lowPriority": "منخفض",
+  "@mediumPriority": {
+    "description": "تسمية لإعداد الأولوية المتوسطة"
+  },
+  "mediumPriority": "متوسط",
+  "@highPriority": {
+    "description": "تسمية لإعداد الأولوية العالية"
+  },
+  "highPriority": "عالي",
+  "@defaultCategory": {
+    "description": "تسمية للفئة الافتراضية"
+  },
+  "defaultCategory": "افتراضي",
+  "@workCategory": {
+    "description": "تسمية لفئة العمل"
+  },
+  "workCategory": "عمل",
+  "@personalCategory": {
+    "description": "تسمية للفئة الشخصية"
+  },
+  "personalCategory": "شخصي",
+  "@healthCategory": {
+    "description": "تسمية لفئة الصحة"
+  },
+  "healthCategory": "صحة",
+  "@fitnessCategory": {
+    "description": "تسمية لفئة اللياقة البدنية"
+  },
+  "fitnessCategory": "لياقة بدنية",
+  "@educationCategory": {
+    "description": "تسمية لفئة التعليم"
+  },
+  "educationCategory": "تعليم",
+  "@dailyFrequency": {
+    "description": "تسمية للتكرار اليومي"
+  },
+  "dailyFrequency": "يومي",
+  "@weeklyFrequency": {
+    "description": "تسمية للتكرار الأسبوعي"
+  },
+  "weeklyFrequency": "أسبوعي",
+  "@monthlyFrequency": {
+    "description": "تسمية للتكرار الشهري"
+  },
+  "monthlyFrequency": "شهري"
+}

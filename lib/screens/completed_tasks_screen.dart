@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/task.dart';
 import '../services/database_service.dart';
 import 'package:logger/logger.dart';
+import 'package:openmynd/l10n/app_localizations.dart'; // Added import for AppLocalizations
 
 class CompletedTasksScreen extends StatefulWidget {
   final VoidCallback onTaskRestored;
@@ -44,7 +45,7 @@ class CompletedTasksScreenState extends State<CompletedTasksScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Completed Tasks'),
+        title: Text(AppLocalizations.of(context).completedTasks), // Updated title
       ),
       body: ListView.builder(
         itemCount: _completedTasks.length,

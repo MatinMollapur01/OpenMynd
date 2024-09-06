@@ -104,16 +104,14 @@ class DatabaseService {
   // Task CRUD operations
   Future<int> createTask(Task task) async {
     final db = await instance.database;
-    final result = await db.insert('tasks', _taskToMap(task));
-    print("Task inserted with id: $result");
-    return result;
+    return await db.insert('tasks', task.toJson());
   }
 
   Future<Task?> readTask(String id) async {
     final db = await instance.database;
     final maps = await db.query('tasks', where: 'id = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
-      return _taskFromMap(maps.first);
+      return Task.fromJson(maps.first);
     }
     return null;
   }
@@ -121,18 +119,18 @@ class DatabaseService {
   Future<List<Task>> readAllTasks() async {
     final db = await instance.database;
     final result = await db.query('tasks', where: 'isCompleted = ?', whereArgs: [0]);
-    return result.map((map) => _taskFromMap(map)).toList();
+    return result.map((map) => Task.fromJson(map)).toList();
   }
 
   Future<List<Task>> readCompletedTasks() async {
     final db = await instance.database;
     final result = await db.query('tasks', where: 'isCompleted = ?', whereArgs: [1]);
-    return result.map((map) => _taskFromMap(map)).toList();
+    return result.map((map) => Task.fromJson(map)).toList();
   }
 
   Future<int> updateTask(Task task) async {
     final db = await instance.database;
-    return await db.update('tasks', _taskToMap(task), where: 'id = ?', whereArgs: [task.id]);
+    return await db.update('tasks', task.toJson(), where: 'id = ?', whereArgs: [task.id]);
   }
 
   Future<int> deleteTask(String id) async {
@@ -143,14 +141,15 @@ class DatabaseService {
   // Habit CRUD operations
   Future<int> createHabit(Habit habit) async {
     final db = await instance.database;
-    return await db.insert('habits', _habitToMap(habit));
+    print('Inserting habit: ${habit.toJson()}'); // Add this line for debugging
+    return await db.insert('habits', habit.toJson());
   }
 
   Future<Habit?> readHabit(String id) async {
     final db = await instance.database;
     final maps = await db.query('habits', where: 'id = ?', whereArgs: [id]);
     if (maps.isNotEmpty) {
-      return _habitFromMap(maps.first);
+      return Habit.fromJson(maps.first);
     }
     return null;
   }
@@ -158,116 +157,18 @@ class DatabaseService {
   Future<List<Habit>> readAllHabits() async {
     final db = await instance.database;
     final result = await db.query('habits');
-    return result.map((map) => _habitFromMap(map)).toList();
+    print('Raw habit data: $result'); // Add this line for debugging
+    return result.map((map) => Habit.fromJson(map)).toList();
   }
 
   Future<int> updateHabit(Habit habit) async {
     final db = await instance.database;
-    return await db.update(
-      'habits',
-      _habitToMap(habit),
-      where: 'id = ?',
-      whereArgs: [habit.id],
-    );
+    return await db.update('habits', habit.toJson(), where: 'id = ?', whereArgs: [habit.id]);
   }
 
   Future<int> deleteHabit(String id) async {
     final db = await instance.database;
-    return await db.delete(
-      'habits',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-  }
-
-  // Helper methods for Task
-  Map<String, dynamic> _taskToMap(Task task) {
-    return {
-      'id': task.id,
-      'title': task.title,
-      'description': task.description,
-      'dueDate': task.dueDate?.toIso8601String(),
-      'priority': task.priority,
-      'category': task.category,
-      'tags': task.tags.join(','),
-      'isCompleted': task.isCompleted ? 1 : 0,
-      'completedDate': task.completedDate?.toIso8601String(), // New field
-    };
-  }
-
-  Task _taskFromMap(Map<String, dynamic> map) {
-    return Task(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      dueDate: map['dueDate'] != null ? DateTime.parse(map['dueDate']) : null,
-      priority: map['priority'],
-      category: map['category'],
-      tags: (map['tags'] as String?)?.split(',') ?? [],
-      isCompleted: map['isCompleted'] == 1,
-      completedDate: map['completedDate'] != null ? DateTime.parse(map['completedDate']) : null, // New field
-    );
-  }
-
-  // Helper methods for Habit
-  Map<String, dynamic> _habitToMap(Habit habit) {
-    return {
-      'id': habit.id,
-      'title': habit.title,
-      'description': habit.description,
-      'icon': habit.icon.codePoint,
-      'color': habit.color.value,
-      'category': habit.category,
-      'frequency': habit.frequency.index,
-      'completionStatus': habit.completionStatus.join(','),
-      'createdAt': habit.createdAt.toIso8601String(),
-      'notes': habit.notes.join('|'),
-      'reminderTime': habit.reminderTime != null ? '${habit.reminderTime!.hour.toString().padLeft(2, '0')}:${habit.reminderTime!.minute.toString().padLeft(2, '0')}' : null,
-      'customDays': habit.customDays?.join(','),
-      'isCompletedToday': habit.isCompletedToday ? 1 : 0,
-      'lastCompletionTime': habit.lastCompletionTime?.toIso8601String(),
-      'nextDueTime': habit.nextDueTime?.toIso8601String(),
-    };
-  }
-
-  Habit _habitFromMap(Map<String, dynamic> map) {
-    TimeOfDay? reminderTime;
-    if (map['reminderTime'] != null) {
-      try {
-        reminderTime = _parseTimeOfDay(map['reminderTime']);
-      } catch (e) {
-        print("Error parsing reminderTime: ${map['reminderTime']}");
-        // Set reminderTime to null if parsing fails
-      }
-    }
-
-    return Habit(
-      id: map['id'],
-      title: map['title'],
-      description: map['description'],
-      icon: IconData(map['icon'], fontFamily: 'MaterialIcons'),
-      color: Color(map['color']),
-      category: map['category'],
-      frequency: HabitFrequency.values[map['frequency']],
-      completionStatus: (map['completionStatus'] as String).split(',').map((e) => e == 'true').toList(),
-      createdAt: DateTime.parse(map['createdAt']),
-      notes: (map['notes'] as String).split('|'),
-      reminderTime: reminderTime,
-      customDays: map['customDays'] != null ? (map['customDays'] as String).split(',').map((e) => int.parse(e)).toList() : null,
-      isCompletedToday: map['isCompletedToday'] == 1,
-      lastCompletionTime: map['lastCompletionTime'] != null ? DateTime.parse(map['lastCompletionTime']) : null,
-      nextDueTime: map['nextDueTime'] != null ? DateTime.parse(map['nextDueTime']) : null,
-    );
-  }
-
-  static TimeOfDay? _parseTimeOfDay(String time) {
-    try {
-      final parts = time.split(':');
-      return TimeOfDay(hour: int.parse(parts[0]), minute: int.parse(parts[1]));
-    } catch (e) {
-      print("Error parsing TimeOfDay: $time");
-      return null;
-    }
+    return await db.delete('habits', where: 'id = ?', whereArgs: [id]);
   }
 
   // Add a search method
@@ -278,7 +179,7 @@ class DatabaseService {
       where: 'title LIKE ? OR description LIKE ? OR tags LIKE ?',
       whereArgs: ['%$query%', '%$query%', '%$query%'],
     );
-    return result.map((map) => _taskFromMap(map)).toList();
+    return result.map((map) => Task.fromJson(map)).toList();
   }
 
   Future<void> updateStreakCount(int streakCount, DateTime date) async {

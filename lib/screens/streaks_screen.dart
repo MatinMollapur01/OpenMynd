@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/habit.dart';
 import '../services/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:openmynd/l10n/app_localizations.dart';
 
 class StreaksScreen extends StatefulWidget {
   const StreaksScreen({super.key});
@@ -49,9 +50,10 @@ class StreaksScreenState extends State<StreaksScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Streaks'),
+        title: Text(localizations.streaks),
       ),
       body: RefreshIndicator(
         onRefresh: _loadStreakData,
@@ -65,9 +67,9 @@ class StreaksScreenState extends State<StreaksScreen> {
                 '$_streakCount',
                 style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
               ),
-              const Text(
-                'Day Streak',
-                style: TextStyle(fontSize: 24),
+              Text(
+                localizations.dayStreak,
+                style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(height: 20),
               ..._habits.map((habit) => _buildHabitCard(habit)).toList(),
@@ -79,6 +81,7 @@ class StreaksScreenState extends State<StreaksScreen> {
   }
 
   Widget _buildHabitCard(Habit habit) {
+    final localizations = AppLocalizations.of(context);
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final completionDates = <DateTime, bool>{};

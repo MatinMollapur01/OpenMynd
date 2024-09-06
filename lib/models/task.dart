@@ -7,7 +7,7 @@ class Task {
   final String category;
   final List<String> tags;
   bool isCompleted;
-  DateTime? completedDate; // New field
+  DateTime? completedDate;
 
   Task({
     required this.id,
@@ -18,7 +18,7 @@ class Task {
     required this.category,
     this.tags = const [],
     this.isCompleted = false,
-    this.completedDate, // New field
+    this.completedDate,
   });
 
   // Add these methods for JSON serialization/deserialization
@@ -30,9 +30,9 @@ class Task {
       'dueDate': dueDate?.toIso8601String(),
       'priority': priority,
       'category': category,
-      'tags': tags,
-      'isCompleted': isCompleted,
-      'completedDate': completedDate?.toIso8601String(), // New field
+      'tags': tags.join(','), // Convert list to comma-separated string
+      'isCompleted': isCompleted ? 1 : 0, // Convert bool to int
+      'completedDate': completedDate?.toIso8601String(),
     };
   }
 
@@ -44,9 +44,9 @@ class Task {
       dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate']) : null,
       priority: json['priority'],
       category: json['category'],
-      tags: List<String>.from(json['tags'] ?? []),
-      isCompleted: json['isCompleted'] ?? false,
-      completedDate: json['completedDate'] != null ? DateTime.parse(json['completedDate']) : null, // New field
+      tags: (json['tags'] as String).split(','), // Convert comma-separated string to list
+      isCompleted: json['isCompleted'] == 1, // Convert int to bool
+      completedDate: json['completedDate'] != null ? DateTime.parse(json['completedDate']) : null,
     );
   }
 }

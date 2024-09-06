@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:openmynd/l10n/app_localizations.dart';
 import '../models/task.dart';
 
 class TaskDetailScreen extends StatefulWidget {
@@ -11,6 +12,7 @@ class TaskDetailScreen extends StatefulWidget {
 }
 
 class TaskDetailScreenState extends State<TaskDetailScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController _titleController;
   late TextEditingController _descriptionController;
   late String _priority;
@@ -33,93 +35,105 @@ class TaskDetailScreenState extends State<TaskDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.task == null ? 'Add Task' : 'Edit Task'),
+        title: Text(widget.task == null ? localizations.addTask : localizations.editTask),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: const InputDecoration(
-                labelText: 'Title',
-                border: OutlineInputBorder(),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: localizations.title,
+                  border: const OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Description',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _descriptionController,
+                decoration: InputDecoration(
+                  labelText: localizations.description,
+                  border: const OutlineInputBorder(),
+                ),
+                maxLines: 3,
               ),
-              maxLines: 3,
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _priority,
-              decoration: const InputDecoration(
-                labelText: 'Priority',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: _priority,
+                decoration: InputDecoration(
+                  labelText: localizations.priority,
+                  border: const OutlineInputBorder(),
+                ),
+                items: [
+                  DropdownMenuItem(value: 'low', child: Text(localizations.lowPriority)),
+                  DropdownMenuItem(value: 'medium', child: Text(localizations.mediumPriority)),
+                  DropdownMenuItem(value: 'high', child: Text(localizations.highPriority)),
+                ],
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _priority = newValue!;
+                  });
+                },
               ),
-              items: ['low', 'medium', 'high'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _priority = newValue!;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            DropdownButtonFormField<String>(
-              value: _category,
-              decoration: const InputDecoration(
-                labelText: 'Category',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: _category,
+                decoration: InputDecoration(
+                  labelText: localizations.category,
+                  border: const OutlineInputBorder(),
+                ),
+                items: [
+                  DropdownMenuItem(value: 'default', child: Text(localizations.defaultCategory)),
+                  DropdownMenuItem(value: 'work', child: Text(localizations.workCategory)),
+                  DropdownMenuItem(value: 'personal', child: Text(localizations.personalCategory)),
+                  DropdownMenuItem(value: 'health', child: Text(localizations.healthCategory)),
+                ],
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _category = newValue!;
+                  });
+                },
               ),
-              items: ['default', 'work', 'personal', 'health'].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  _category = newValue!;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _tagsController,
-              decoration: const InputDecoration(
-                labelText: 'Tags (comma-separated)',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _tagsController,
+                decoration: InputDecoration(
+                  labelText: localizations.tags,
+                  border: const OutlineInputBorder(),
+                ),
               ),
-            ),
-            ListTile(
-              title: Text(_dueDate == null ? 'Set Due Date' : 'Due Date: ${_dueDate!.toLocal().toString().split(' ')[0]}'),
-              trailing: const Icon(Icons.calendar_today),
-              onTap: () => _selectDate(context),
-            ),
-            ListTile(
-              title: Text(_dueTime == null ? 'Set Due Time' : 'Due Time: ${_dueTime!.format(context)}'),
-              trailing: const Icon(Icons.access_time),
-              onTap: () => _selectTime(context),
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: _saveTask,
-              child: Text(widget.task == null ? 'Add Task' : 'Update Task'),
-            ),
-          ],
+              ListTile(
+                title: Text(
+                  _dueDate == null
+                      ? localizations.dueDate
+                      : '${localizations.dueDate}: ${_dueDate!.toLocal().toString().split(' ')[0]}',
+                ),
+                trailing: const Icon(Icons.calendar_today),
+                onTap: () => _selectDate(context),
+              ),
+              ListTile(
+                title: Text(
+                  _dueTime == null
+                      ? localizations.dueTime
+                      : '${localizations.dueTime}: ${_dueTime!.format(context)}',
+                ),
+                trailing: const Icon(Icons.access_time),
+                onTap: () => _selectTime(context),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _saveTask,
+                child: Text(widget.task == null ? localizations.addTask : localizations.updateTask),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -152,26 +166,30 @@ class TaskDetailScreenState extends State<TaskDetailScreen> {
   }
 
   void _saveTask() {
-    final DateTime? combinedDateTime = _dueDate != null && _dueTime != null
-        ? DateTime(
-            _dueDate!.year,
-            _dueDate!.month,
-            _dueDate!.day,
-            _dueTime!.hour,
-            _dueTime!.minute,
-          )
-        : null;
+    if (_formKey.currentState!.validate()) {
+      final DateTime? combinedDateTime = _dueDate != null && _dueTime != null
+          ? DateTime(
+              _dueDate!.year,
+              _dueDate!.month,
+              _dueDate!.day,
+              _dueTime!.hour,
+              _dueTime!.minute,
+            )
+          : null;
 
-    final task = Task(
-      id: widget.task?.id ?? DateTime.now().toString(),
-      title: _titleController.text,
-      description: _descriptionController.text,
-      dueDate: combinedDateTime,
-      priority: _priority,
-      category: _category,
-      tags: _tagsController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
-    );
-    Navigator.of(context).pop(task);
+      final task = Task(
+        id: widget.task?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+        title: _titleController.text,
+        description: _descriptionController.text,
+        dueDate: combinedDateTime,
+        priority: _priority,
+        category: _category,
+        tags: _tagsController.text.split(',').map((e) => e.trim()).where((e) => e.isNotEmpty).toList(),
+        isCompleted: widget.task?.isCompleted ?? false,
+        completedDate: widget.task?.completedDate,
+      );
+      Navigator.of(context).pop(task);
+    }
   }
 
   @override

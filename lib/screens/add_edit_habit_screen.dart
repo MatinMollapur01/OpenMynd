@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import '../models/habit.dart';
 import '../services/notification_service.dart';
+import 'package:openmynd/l10n/app_localizations.dart';
 
 class AddEditHabitScreen extends StatefulWidget {
   final Habit? habit;
@@ -57,7 +58,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.habit == null ? 'Add Habit' : 'Edit Habit'),
+        title: Text(widget.habit == null ? AppLocalizations.of(context).addHabit : AppLocalizations.of(context).editHabit),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -68,8 +69,8 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
             children: [
               TextFormField(
                 controller: _titleController,
-                decoration: const InputDecoration(
-                  labelText: 'Title',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).title,
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -82,8 +83,8 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _descriptionController,
-                decoration: const InputDecoration(
-                  labelText: 'Description',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).description,
                   border: OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -91,16 +92,18 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               const SizedBox(height: 16),
               DropdownButtonFormField<String>(
                 value: _selectedCategory,
-                decoration: const InputDecoration(
-                  labelText: 'Category',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).category,
                   border: OutlineInputBorder(),
                 ),
-                items: _categories.map((String category) {
-                  return DropdownMenuItem<String>(
-                    value: category,
-                    child: Text(category),
-                  );
-                }).toList(),
+                items: [
+                  DropdownMenuItem(value: 'Personal', child: Text(AppLocalizations.of(context).personalCategory)),
+                  DropdownMenuItem(value: 'Work', child: Text(AppLocalizations.of(context).workCategory)),
+                  DropdownMenuItem(value: 'Health', child: Text(AppLocalizations.of(context).healthCategory)),
+                  DropdownMenuItem(value: 'Fitness', child: Text(AppLocalizations.of(context).fitnessCategory)),
+                  DropdownMenuItem(value: 'Education', child: Text(AppLocalizations.of(context).educationCategory)),
+                  DropdownMenuItem(value: 'Custom', child: Text(AppLocalizations.of(context).customCategory)),
+                ],
                 onChanged: (String? newValue) {
                   setState(() {
                     _selectedCategory = newValue!;
@@ -112,8 +115,8 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               if (_selectedCategory == 'Custom')
                 TextFormField(
                   controller: _customCategoryController,
-                  decoration: const InputDecoration(
-                    labelText: 'Custom Category',
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).customCategory,
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) {
@@ -126,18 +129,15 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               const SizedBox(height: 16),
               DropdownButtonFormField<HabitFrequency>(
                 value: _selectedFrequency,
-                decoration: const InputDecoration(
-                  labelText: 'Frequency',
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context).frequency,
                   border: OutlineInputBorder(),
                 ),
-                items: HabitFrequency.values
-                    .where((frequency) => frequency != HabitFrequency.custom) // Exclude custom option
-                    .map((HabitFrequency frequency) {
-                  return DropdownMenuItem<HabitFrequency>(
-                    value: frequency,
-                    child: Text(frequency.toString().split('.').last),
-                  );
-                }).toList(),
+                items: [
+                  DropdownMenuItem(value: HabitFrequency.daily, child: Text(AppLocalizations.of(context).dailyFrequency)),
+                  DropdownMenuItem(value: HabitFrequency.weekly, child: Text(AppLocalizations.of(context).weeklyFrequency)),
+                  DropdownMenuItem(value: HabitFrequency.monthly, child: Text(AppLocalizations.of(context).monthlyFrequency)),
+                ],
                 onChanged: (HabitFrequency? newValue) {
                   setState(() {
                     _selectedFrequency = newValue!;
@@ -145,7 +145,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 },
               ),
               const SizedBox(height: 16),
-              const Text('Select an icon:', style: TextStyle(fontSize: 16)),
+              Text(AppLocalizations.of(context).icon, style: const TextStyle(fontSize: 16)),
               Wrap(
                 spacing: 16,
                 runSpacing: 16,
@@ -169,7 +169,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               ),
               const SizedBox(height: 16),
               ListTile(
-                title: const Text('Color'),
+                title: Text(AppLocalizations.of(context).color),
                 trailing: Container(
                   width: 24,
                   height: 24,
@@ -178,7 +178,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 onTap: _pickColor,
               ),
               ListTile(
-                title: const Text('Reminder'),
+                title: Text(AppLocalizations.of(context).reminder),
                 subtitle: Text(_reminderTime != null 
                   ? 'Set for ${_reminderTime!.format(context)}'
                   : 'Not set'),
@@ -197,7 +197,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _saveHabit,
-                child: Text(widget.habit == null ? 'Add Habit' : 'Update Habit'),
+                child: Text(widget.habit == null ? AppLocalizations.of(context).addHabit : AppLocalizations.of(context).editHabit),
               ),
             ],
           ),
@@ -252,7 +252,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
   void _saveHabit() {
     if (_formKey.currentState!.validate()) {
       final habit = Habit(
-        id: widget.habit?.id ?? DateTime.now().toString(),
+        id: widget.habit?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
         title: _titleController.text,
         description: _descriptionController.text,
         category: _selectedCategory == 'Custom' ? _customCategoryController.text : _selectedCategory,
@@ -262,13 +262,13 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
         reminderTime: _reminderTime,
         createdAt: widget.habit?.createdAt ?? DateTime.now(),
         completionStatus: widget.habit?.completionStatus ?? [],
+        notes: widget.habit?.notes ?? [],
+        isCompletedToday: widget.habit?.isCompletedToday ?? false,
+        lastCompletionTime: widget.habit?.lastCompletionTime,
+        nextDueTime: widget.habit?.nextDueTime,
       );
 
-      if (_reminderTime != null) {
-        NotificationService().scheduleHabitReminder(habit);
-      } else if (widget.habit?.reminderTime != null) {
-        NotificationService().cancelHabitReminder(habit.id);
-      }
+      print('Saving habit: ${habit.toJson()}'); // Add this line for debugging
 
       Navigator.pop(context, habit);
     }

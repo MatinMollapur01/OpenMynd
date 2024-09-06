@@ -1,0 +1,231 @@
+{
+  "@@locale": "zh",
+  "appTitle": "开放心灵",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "设置",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  "darkMode": "黑暗模式",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "language": "语言",
+  "@language": {
+    "description": "Language setting"
+  },
+  "selectLanguage": "选择语言",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "english": "英语",
+  "@english": {
+    "description": "English language option"
+  },
+  "persian": "波斯语",
+  "@persian": {
+    "description": "Persian language option"
+  },
+  "turkish": "土耳其语",
+  "@turkish": {
+    "description": "Turkish language option"
+  },
+  "azerbaijani": "阿塞拜疆语",
+  "@azerbaijani": {
+    "description": "Azerbaijani language option"
+  },
+  "arabic": "阿拉伯语",
+  "@arabic": {
+    "description": "Arabic language option"
+  },
+  "russian": "俄语",
+  "@russian": {
+    "description": "Russian language option"
+  },
+  "chinese": "中文",
+  "@chinese": {
+    "description": "Chinese language option"
+  },
+  "habits": "习惯",
+  "@habits": {
+    "description": "Habits section"
+  },
+  "addHabit": "添加习惯",
+  "@addHabit": {
+    "description": "Add habit"
+  },
+  "editHabit": "编辑习惯",
+  "@editHabit": {
+    "description": "Edit habit"
+  },
+  "deleteHabit": "删除习惯",
+  "@deleteHabit": {
+    "description": "Delete habit"
+  },
+  "confirmDelete": "您确定要删除吗",
+  "@confirmDelete": {
+    "description": "Confirm delete prompt"
+  },
+  "cancel": "取消",
+  "@cancel": {
+    "description": "Cancel action"
+  },
+  "delete": "删除",
+  "@delete": {
+    "description": "Delete action"
+  },
+  "title": "标题",
+  "@title": {
+    "description": "Title"
+  },
+  "description": "描述",
+  "@description": {
+    "description": "Description"
+  },
+  "category": "类别",
+  "@category": {
+    "description": "Category"
+  },
+  "frequency": "频率",
+  "@frequency": {
+    "description": "Frequency"
+  },
+  "reminder": "提醒",
+  "@reminder": {
+    "description": "Reminder"
+  },
+  "color": "颜色",
+  "@color": {
+    "description": "Color"
+  },
+  "icon": "图标",
+  "@icon": {
+    "description": "Icon"
+  },
+  "save": "保存",
+  "@save": {
+    "description": "Save action"
+  },
+  "streaks": "连续记录",
+  "@streaks": {
+    "description": "Streaks"
+  },
+  "dayStreak": "连续天数",
+  "@dayStreak": {
+    "description": "Day streak"
+  },
+  "nextDue": "下次到期",
+  "@nextDue": {
+    "description": "Next due date"
+  },
+  "completed": "已完成",
+  "@completed": {
+    "description": "Completed"
+  },
+  "todo": "待办事项",
+  "@todo": {
+    "description": "To-do"
+  },
+  "addTask": "添加任务",
+  "@addTask": {
+    "description": "Add task"
+  },
+  "editTask": "编辑任务",
+  "@editTask": {
+    "description": "Edit task"
+  },
+  "deleteTask": "删除任务",
+  "@deleteTask": {
+    "description": "Delete task"
+  },
+  "priority": "优先级",
+  "@priority": {
+    "description": "Priority"
+  },
+  "dueDate": "截止日期",
+  "@dueDate": {
+    "description": "Due date"
+  },
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "截止时间",
+  "tags": "标签",
+  "@tags": {
+    "description": "Tags"
+  },
+  "completedTasks": "已完成的任务",
+  "@completedTasks": {
+    "description": "Completed tasks"
+  },
+  "restore": "恢复",
+  "@restore": {
+    "description": "Restore action"
+  },
+  "search": "搜索",
+  "@search": {
+    "description": "Search"
+  },
+  "noTasks": "未找到任务",
+  "@noTasks": {
+    "description": "No tasks found"
+  },
+  "noHabits": "未找到习惯",
+  "@noHabits": {
+    "description": "No habits found"
+  },
+  "customCategory": "自定义类别",
+  "@customCategory": {
+    "description": "Label for custom category field"
+  },
+  "@lowPriority": {
+    "description": "低优先级设置的标签"
+  },
+  "lowPriority": "低",
+  "@mediumPriority": {
+    "description": "中优先级设置的标签"
+  },
+  "mediumPriority": "中",
+  "@highPriority": {
+    "description": "高优先级设置的标签"
+  },
+  "highPriority": "高",
+  "@defaultCategory": {
+    "description": "默认类别的标签"
+  },
+  "defaultCategory": "默认",
+  "@workCategory": {
+    "description": "工作类别的标签"
+  },
+  "workCategory": "工作",
+  "@personalCategory": {
+    "description": "个人类别的标签"
+  },
+  "personalCategory": "个人",
+  "@healthCategory": {
+    "description": "健康类别的标签"
+  },
+  "healthCategory": "健康",
+  "@fitnessCategory": {
+    "description": "健身类别的标签"
+  },
+  "fitnessCategory": "健身",
+  "@educationCategory": {
+    "description": "教育类别的标签"
+  },
+  "educationCategory": "教育",
+  "@dailyFrequency": {
+    "description": "每日频率的标签"
+  },
+  "dailyFrequency": "每日",
+  "@weeklyFrequency": {
+    "description": "每周频率的标签"
+  },
+  "weeklyFrequency": "每周",
+  "@monthlyFrequency": {
+    "description": "每月频率的标签"
+  },
+  "monthlyFrequency": "每月"
+}

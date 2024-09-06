@@ -1,0 +1,231 @@
+{
+  "@@locale": "fa",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "appTitle": "اوپن مایند",
+  "@settings": {
+    "description": "Label for the settings menu"
+  },
+  "settings": "تنظیمات",
+  "@darkMode": {
+    "description": "Label for the dark mode setting"
+  },
+  "darkMode": "حالت تاریک",
+  "@language": {
+    "description": "Label for the language setting"
+  },
+  "language": "زبان",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "selectLanguage": "انتخاب زبان",
+  "@english": {
+    "description": "Name of the English language"
+  },
+  "english": "انگلیسی",
+  "@persian": {
+    "description": "Name of the Persian language"
+  },
+  "persian": "فارسی",
+  "@turkish": {
+    "description": "Name of the Turkish language"
+  },
+  "turkish": "ترکی",
+  "@azerbaijani": {
+    "description": "Name of the Azerbaijani language"
+  },
+  "azerbaijani": "آذربایجانی",
+  "@arabic": {
+    "description": "Name of the Arabic language"
+  },
+  "arabic": "عربی",
+  "@russian": {
+    "description": "Name of the Russian language"
+  },
+  "russian": "روسی",
+  "@chinese": {
+    "description": "Name of the Chinese language"
+  },
+  "chinese": "چینی",
+  "@habits": {
+    "description": "Label for habits section"
+  },
+  "habits": "عادت‌ها",
+  "@addHabit": {
+    "description": "Label for adding a habit"
+  },
+  "addHabit": "افزودن عادت",
+  "@editHabit": {
+    "description": "Label for editing a habit"
+  },
+  "editHabit": "ویرایش عادت",
+  "@deleteHabit": {
+    "description": "Label for deleting a habit"
+  },
+  "deleteHabit": "حذف عادت",
+  "@confirmDelete": {
+    "description": "Confirmation prompt for deletion"
+  },
+  "confirmDelete": "آیا مطمئن هستید که می‌خواهید حذف کنید",
+  "@cancel": {
+    "description": "Label for cancel action"
+  },
+  "cancel": "لغو",
+  "@delete": {
+    "description": "Label for delete action"
+  },
+  "delete": "حذف",
+  "@title": {
+    "description": "Label for title"
+  },
+  "title": "عنوان",
+  "@description": {
+    "description": "Label for description"
+  },
+  "description": "توضیحات",
+  "@category": {
+    "description": "Label for category"
+  },
+  "category": "دسته‌بندی",
+  "@frequency": {
+    "description": "Label for frequency"
+  },
+  "frequency": "تکرار",
+  "@reminder": {
+    "description": "Label for reminder"
+  },
+  "reminder": "یادآوری",
+  "@color": {
+    "description": "Label for color"
+  },
+  "color": "رنگ",
+  "@icon": {
+    "description": "Label for icon"
+  },
+  "icon": "آیکون",
+  "@save": {
+    "description": "Label for save action"
+  },
+  "save": "ذخیره",
+  "@streaks": {
+    "description": "Label for streaks"
+  },
+  "streaks": "دنباله‌ها",
+  "@dayStreak": {
+    "description": "Label for daily streak"
+  },
+  "dayStreak": "دنباله روزانه",
+  "@nextDue": {
+    "description": "Label for next due date"
+  },
+  "nextDue": "موعد بعدی",
+  "@completed": {
+    "description": "Label for completed status"
+  },
+  "completed": "تکمیل شده",
+  "@todo": {
+    "description": "Label for to-do items"
+  },
+  "todo": "کارهای انجام نشده",
+  "@addTask": {
+    "description": "Label for adding a task"
+  },
+  "addTask": "افزودن وظیفه",
+  "@editTask": {
+    "description": "Label for editing a task"
+  },
+  "editTask": "ویرایش وظیفه",
+  "@deleteTask": {
+    "description": "Label for deleting a task"
+  },
+  "deleteTask": "حذف وظیفه",
+  "@priority": {
+    "description": "Label for priority"
+  },
+  "priority": "اولویت",
+  "@dueDate": {
+    "description": "Label for due date"
+  },
+  "dueDate": "تاریخ سررسید",
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "زمان سررسید",
+  "@tags": {
+    "description": "Label for tags"
+  },
+  "tags": "برچسب‌ها",
+  "@completedTasks": {
+    "description": "Label for completed tasks"
+  },
+  "completedTasks": "وظایف تکمیل شده",
+  "@restore": {
+    "description": "Label for restore action"
+  },
+  "restore": "بازیابی",
+  "@search": {
+    "description": "Label for search action"
+  },
+  "search": "جستجو",
+  "@noTasks": {
+    "description": "Message when no tasks are found"
+  },
+  "noTasks": "هیچ وظیفه‌ای یافت نشد",
+  "@noHabits": {
+    "description": "Message when no habits are found"
+  },
+  "noHabits": "هیچ عادتی یافت نشد",
+  "customCategory": "دسته‌بندی سفارشی",
+  "@customCategory": {
+    "description": "برچسب برای فیلد دسته‌بندی سفارشی"
+  },
+  "@lowPriority": {
+    "description": "برچسب برای تنظیم اولویت پایین"
+  },
+  "lowPriority": "پایین",
+  "@mediumPriority": {
+    "description": "برچسب برای تنظیم اولویت متوسط"
+  },
+  "mediumPriority": "متوسط",
+  "@highPriority": {
+    "description": "برچسب برای تنظیم اولویت بالا"
+  },
+  "highPriority": "بالا",
+  "@defaultCategory": {
+    "description": "برچسب برای دسته‌بندی پیش‌فرض"
+  },
+  "defaultCategory": "پیش‌فرض",
+  "@workCategory": {
+    "description": "برچسب برای دسته‌بندی کار"
+  },
+  "workCategory": "کار",
+  "@personalCategory": {
+    "description": "برچسب برای دسته‌بندی شخصی"
+  },
+  "personalCategory": "شخصی",
+  "@healthCategory": {
+    "description": "برچسب برای دسته‌بندی سلامت"
+  },
+  "healthCategory": "سلامت",
+  "@fitnessCategory": {
+    "description": "برچسب برای دسته‌بندی تناسب اندام"
+  },
+  "fitnessCategory": "تناسب اندام",
+  "@educationCategory": {
+    "description": "برچسب برای دسته‌بندی آموزش"
+  },
+  "educationCategory": "آموزش",
+  "@dailyFrequency": {
+    "description": "برچسب برای تکرار روزانه"
+  },
+  "dailyFrequency": "روزانه",
+  "@weeklyFrequency": {
+    "description": "برچسب برای تکرار هفتگی"
+  },
+  "weeklyFrequency": "هفتگی",
+  "@monthlyFrequency": {
+    "description": "برچسب برای تکرار ماهانه"
+  },
+  "monthlyFrequency": "ماهانه"
+}

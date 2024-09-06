@@ -37,6 +37,72 @@ class Habit {
     this.nextDueTime,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'icon': icon.codePoint,
+      'color': color.value,
+      'category': category,
+      'frequency': frequency.index,
+      'completionStatus': completionStatus.map((e) => e ? 1 : 0).join(','), // Convert to comma-separated string
+      'createdAt': createdAt.toIso8601String(),
+      'notes': notes.join('|'), // Use a separator that's unlikely to be in the notes
+      'reminderTime': reminderTime != null ? '${reminderTime!.hour.toString().padLeft(2, '0')}:${reminderTime!.minute.toString().padLeft(2, '0')}' : null,
+      'customDays': customDays?.join(','),
+      'isCompletedToday': isCompletedToday ? 1 : 0,
+      'lastCompletionTime': lastCompletionTime?.toIso8601String(),
+      'nextDueTime': nextDueTime?.toIso8601String(),
+    };
+  }
+
+  factory Habit.fromJson(Map<String, dynamic> json) {
+    return Habit(
+      id: json['id'],
+      title: json['title'],
+      description: json['description'],
+      icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
+      color: Color(json['color']),
+      category: json['category'],
+      frequency: HabitFrequency.values[json['frequency']],
+      completionStatus: json['completionStatus'] != null && json['completionStatus'].isNotEmpty
+          ? json['completionStatus'].split(',').map((e) => e == '1').toList().cast<bool>()
+          : [],
+      createdAt: DateTime.parse(json['createdAt']),
+      notes: json['notes'] != null && json['notes'].isNotEmpty ? json['notes'].split('|') : [],
+      reminderTime: json['reminderTime'] != null ? TimeOfDay.fromDateTime(DateTime.parse('2022-01-01 ${json['reminderTime']}:00')) : null,
+      customDays: json['customDays'] != null ? (json['customDays'] as String).split(',').map((e) => int.parse(e)).toList() : null,
+      isCompletedToday: json['isCompletedToday'] == 1,
+      lastCompletionTime: json['lastCompletionTime'] != null ? DateTime.parse(json['lastCompletionTime']) : null,
+      nextDueTime: json['nextDueTime'] != null ? DateTime.parse(json['nextDueTime']) : null,
+    );
+  }
+
+  bool isOverdue() {
+    final now = DateTime.now();
+    if (nextDueTime == null) return false;
+    return now.isAfter(nextDueTime!);
+  }
+
+  DateTime calculateNextDueTime() {
+    final now = DateTime.now();
+    switch (frequency) {
+      case HabitFrequency.daily:
+        return DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
+      case HabitFrequency.weekly:
+        return DateTime(now.year, now.month, now.day).add(const Duration(days: 7));
+      case HabitFrequency.monthly:
+        return DateTime(now.year, now.month + 1, now.day);
+      case HabitFrequency.custom:
+        if (customDays != null && customDays!.isNotEmpty) {
+          int nextDay = customDays!.firstWhere((day) => day > now.weekday, orElse: () => customDays!.first);
+          return DateTime(now.year, now.month, now.day).add(Duration(days: (nextDay - now.weekday + 7) % 7));
+        }
+        return now;
+    }
+  }
+
   bool shouldCompleteToday() {
     final now = DateTime.now();
     switch (frequency) {
@@ -49,27 +115,6 @@ class Habit {
       case HabitFrequency.custom:
         return customDays?.contains(now.weekday) ?? false;
     }
-  }
-
-  bool shouldCompleteOnDay(DateTime date) {
-    switch (frequency) {
-      case HabitFrequency.daily:
-        return true;
-      case HabitFrequency.weekly:
-        return date.weekday == DateTime.monday;
-      case HabitFrequency.monthly:
-        return date.day == 1;
-      case HabitFrequency.custom:
-        return customDays?.contains(date.weekday) ?? false;
-    }
-  }
-
-  bool isCompletedOnDay(DateTime date) {
-    final index = date.difference(createdAt).inDays;
-    if (index < 0 || index >= completionStatus.length) {
-      return false;
-    }
-    return completionStatus[index];
   }
 
   void completeHabit() {
@@ -92,70 +137,12 @@ class Habit {
     }
   }
 
-  DateTime calculateNextDueTime() {
-    final now = DateTime.now();
-    switch (frequency) {
-      case HabitFrequency.daily:
-        return DateTime(now.year, now.month, now.day).add(const Duration(days: 1));
-      case HabitFrequency.weekly:
-        return DateTime(now.year, now.month, now.day).add(const Duration(days: 7));
-      case HabitFrequency.monthly:
-        return DateTime(now.year, now.month + 1, now.day);
-      case HabitFrequency.custom:
-        if (customDays != null && customDays!.isNotEmpty) {
-          int nextDay = customDays!.firstWhere((day) => day > now.weekday, orElse: () => customDays!.first);
-          return DateTime(now.year, now.month, now.day).add(Duration(days: (nextDay - now.weekday + 7) % 7));
-        }
-        return now;
+  bool isCompletedOnDay(DateTime date) {
+    final index = date.difference(createdAt).inDays;
+    if (index < 0 || index >= completionStatus.length) {
+      return false;
     }
-  }
-
-  bool isOverdue() {
-    final now = DateTime.now();
-    if (nextDueTime == null) return false;
-    return now.isAfter(nextDueTime!);
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'icon': icon.codePoint,
-      'color': color.value,
-      'category': category,
-      'frequency': frequency.index,
-      'completionStatus': completionStatus.map((e) => e ? 1 : 0).toList(),
-      'createdAt': createdAt.toIso8601String(),
-      'notes': notes,
-      'reminderTime': reminderTime != null ? '${reminderTime!.hour.toString().padLeft(2, '0')}:${reminderTime!.minute.toString().padLeft(2, '0')}' : null,
-      'customDays': customDays,
-      'isCompletedToday': isCompletedToday ? 1 : 0,
-      'lastCompletionTime': lastCompletionTime?.toIso8601String(),
-      'nextDueTime': nextDueTime?.toIso8601String(),
-    };
-  }
-
-  factory Habit.fromJson(Map<String, dynamic> json) {
-    return Habit(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
-      color: Color(json['color']),
-      category: json['category'],
-      frequency: HabitFrequency.values[json['frequency']],
-      completionStatus: (json['completionStatus'] as List).map((e) => e == 1).toList(),
-      createdAt: DateTime.parse(json['createdAt']),
-      notes: List<String>.from(json['notes']),
-      reminderTime: json['reminderTime'] != null
-          ? TimeOfDay.fromDateTime(DateTime.parse(json['reminderTime']))
-          : null,
-      customDays: json['customDays'] != null ? List<int>.from(json['customDays']) : null,
-      isCompletedToday: json['isCompletedToday'] == 1,
-      lastCompletionTime: json['lastCompletionTime'] != null ? DateTime.parse(json['lastCompletionTime']) : null,
-      nextDueTime: json['nextDueTime'] != null ? DateTime.parse(json['nextDueTime']) : null,
-    );
+    return completionStatus[index];
   }
 }
 

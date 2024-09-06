@@ -1,0 +1,228 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2024-09-06T07:54:06.330596",
+  "appTitle": "OpenMynd",
+  "@appTitle": {
+    "description": "Title for the application",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "darkMode": "Dark Mode",
+  "@darkMode": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "language": "Language",
+  "@language": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectLanguage": "Select Language",
+  "@selectLanguage": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "english": "English",
+  "@english": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "persian": "Persian",
+  "@persian": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "turkish": "Turkish",
+  "@turkish": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "azerbaijani": "Azerbaijani",
+  "@azerbaijani": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "arabic": "Arabic",
+  "@arabic": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "russian": "Russian",
+  "@russian": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "chinese": "Chinese",
+  "@chinese": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "habits": "Habits",
+  "@habits": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addHabit": "Add Habit",
+  "@addHabit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "editHabit": "Edit Habit",
+  "@editHabit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteHabit": "Delete Habit",
+  "@deleteHabit": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "confirmDelete": "Are you sure you want to delete",
+  "@confirmDelete": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "delete": "Delete",
+  "@delete": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "title": "Title",
+  "@title": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "description": "Description",
+  "@description": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "category": "Category",
+  "@category": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "frequency": "Frequency",
+  "@frequency": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "reminder": "Reminder",
+  "@reminder": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "color": "Color",
+  "@color": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "icon": "Icon",
+  "@icon": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "save": "Save",
+  "@save": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "streaks": "Streaks",
+  "@streaks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dayStreak": "Day Streak",
+  "@dayStreak": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "nextDue": "Next due",
+  "@nextDue": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "completed": "Completed",
+  "@completed": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "todo": "To-Do",
+  "@todo": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "addTask": "Add Task",
+  "@addTask": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "editTask": "Edit Task",
+  "@editTask": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "deleteTask": "Delete Task",
+  "@deleteTask": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "priority": "Priority",
+  "@priority": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "dueDate": "Due Date",
+  "@dueDate": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "Due Time",
+  "tags": "Tags",
+  "@tags": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "completedTasks": "Completed Tasks",
+  "@completedTasks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "restore": "Restore",
+  "@restore": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "search": "Search",
+  "@search": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "noTasks": "No tasks found",
+  "@noTasks": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "noHabits": "No habits found",
+  "@noHabits": {
+    "type": "text",
+    "placeholders": {}
+  },
+  "customCategory": "Custom Category",
+  "@customCategory": {
+    "description": "Label for custom category field"
+  }
+}

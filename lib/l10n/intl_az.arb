@@ -1,0 +1,232 @@
+{
+  "@@locale": "az",
+  "appTitle": "OpenMynd",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "Ayarlar",
+  "@settings": {
+    "description": "Settings menu item"
+  },
+  "darkMode": "Qaranlıq Mod",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "language": "Dil",
+  "@language": {
+    "description": "Language setting"
+  },
+  "selectLanguage": "Dil Seçin",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "english": "İngilis",
+  "@english": {
+    "description": "English language option"
+  },
+  "persian": "Fars",
+  "@persian": {
+    "description": "Persian language option"
+  },
+  "turkish": "Türk",
+  "@turkish": {
+    "description": "Turkish language option"
+  },
+  "azerbaijani": "Azərbaycan",
+  "@azerbaijani": {
+    "description": "Azerbaijani language option"
+  },
+  "arabic": "Ərəb",
+  "@arabic": {
+    "description": "Arabic language option"
+  },
+  "russian": "Rus",
+  "@russian": {
+    "description": "Russian language option"
+  },
+  "chinese": "Çin",
+  "@chinese": {
+    "description": "Chinese language option"
+  },
+  "habits": "Vərdişlər",
+  "@habits": {
+    "description": "Habits menu item or section title"
+  },
+  "addHabit": "Vərdiş Əlavə Et",
+  "@addHabit": {
+    "description": "Button or action to add a new habit"
+  },
+  "editHabit": "Vərdişi Redaktə Et",
+  "@editHabit": {
+    "description": "Button or action to edit an existing habit"
+  },
+  "deleteHabit": "Vərdişi Sil",
+  "@deleteHabit": {
+    "description": "Button or action to delete a habit"
+  },
+  "confirmDelete": "Silmək istədiyinizə əminsiniz",
+  "@confirmDelete": {
+    "description": "Confirmation message before deleting an item"
+  },
+  "cancel": "Ləğv Et",
+  "@cancel": {
+    "description": "Cancel button or action"
+  },
+  "delete": "Sil",
+  "@delete": {
+    "description": "Delete button or action"
+  },
+  "title": "Başlıq",
+  "@title": {
+    "description": "Title field for habits or tasks"
+  },
+  "description": "Təsvir",
+  "@description": {
+    "description": "Description field for habits or tasks"
+  },
+  "category": "Kateqoriya",
+  "@category": {
+    "description": "Category field for habits or tasks"
+  },
+  "frequency": "Tezlik",
+  "@frequency": {
+    "description": "Frequency field for habits"
+  },
+  "reminder": "Xatırlatma",
+  "@reminder": {
+    "description": "Reminder setting for habits or tasks"
+  },
+  "color": "Rəng",
+  "@color": {
+    "description": "Color selection for habits or tasks"
+  },
+  "icon": "İkon",
+  "@icon": {
+    "description": "Icon selection for habits or tasks"
+  },
+  "save": "Yadda Saxla",
+  "@save": {
+    "description": "Save button or action"
+  },
+  "streaks": "Ardıcıllıqlar",
+  "@streaks": {
+    "description": "Habit streaks or consecutive completions"
+  },
+  "dayStreak": "Gün Ardıcıllığı",
+  "@dayStreak": {
+    "description": "Number of consecutive days a habit is maintained"
+  },
+  "nextDue": "Növbəti vaxt",
+  "@nextDue": {
+    "description": "Next due date or time for a habit or task"
+  },
+  "completed": "Tamamlandı",
+  "@completed": {
+    "description": "Status for completed habits or tasks"
+  },
+  "todo": "Ediləcəklər",
+  "@todo": {
+    "description": "To-do list or tasks section"
+  },
+  "addTask": "Tapşırıq Əlavə Et",
+  "@addTask": {
+    "description": "Button or action to add a new task"
+  },
+  "editTask": "Tapşırığı Redaktə Et",
+  "@editTask": {
+    "description": "Button or action to edit an existing task"
+  },
+  "deleteTask": "Tapşırığı Sil",
+  "@deleteTask": {
+    "description": "Button or action to delete a task"
+  },
+  "priority": "Prioritet",
+  "@priority": {
+    "description": "Priority field for tasks"
+  },
+  "dueDate": "Son Tarix",
+  "@dueDate": {
+    "description": "Due date field for tasks"
+  },
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "Son Vaxt",
+  "tags": "Etiketlər",
+  "@tags": {
+    "description": "Tags field for tasks or habits"
+  },
+  "completedTasks": "Tamamlanmış Tapşırıqlar",
+  "@completedTasks": {
+    "description": "Section for completed tasks"
+  },
+  "restore": "Bərpa Et",
+  "@restore": {
+    "description": "Button or action to restore a deleted item"
+  },
+  "search": "Axtar",
+  "@search": {
+    "description": "Search field or action"
+  },
+  "noTasks": "Tapşırıq tapılmadı",
+  "@noTasks": {
+    "description": "Message shown when no tasks are found"
+  },
+  "noHabits": "Vərdiş tapılmadı",
+  "@noHabits": {
+    "description": "Message shown when no habits are found"
+  },
+  "customCategory": "Xüsusi Kateqoriya",
+  "@customCategory": {
+    "description": "Xüsusi kateqoriya sahəsi üçün etiket"
+  },
+  "@lowPriority": {
+    "description": "Aşağı prioritet üçün etiket"
+  },
+  "lowPriority": "Aşağı",
+  "@mediumPriority": {
+    "description": "Orta prioritet üçün etiket"
+  },
+  "mediumPriority": "Orta",
+  "@highPriority": {
+    "description": "Yüksək prioritet üçün etiket"
+  },
+  "highPriority": "Yüksək",
+  "@defaultCategory": {
+    "description": "Varsayılan kateqoriya üçün etiket"
+  },
+  "defaultCategory": "Varsayılan",
+  "@workCategory": {
+    "description": "İş kateqoriyası üçün etiket"
+  },
+  "workCategory": "İş",
+  "@personalCategory": {
+    "description": "Şəxsi kateqoriya üçün etiket"
+  },
+  "personalCategory": "Şəxsi",
+  "@healthCategory": {
+    "description": "Sağlamlıq kateqoriyası üçün etiket"
+  },
+  "healthCategory": "Sağlamlıq",
+  "@fitnessCategory": {
+    "description": "Fitness kateqoriyası üçün etiket"
+  },
+  "fitnessCategory": "Fitness",
+  "@educationCategory": {
+    "description": "Təhsil kateqoriyası üçün etiket"
+  },
+  "educationCategory": "Təhsil",
+  "@dailyFrequency": {
+    "description": "Gündəlik tezlik üçün etiket"
+  },
+  "dailyFrequency": "Gündəlik",
+  "@weeklyFrequency": {
+    "description": "Həftəlik tezlik üçün etiket"
+  },
+  "weeklyFrequency": "Həftəlik",
+  "@monthlyFrequency": {
+    "description": "Aylıq tezlik üçün etiket"
+  },
+  "monthlyFrequency": "Aylıq"
+}
+

@@ -1,0 +1,231 @@
+{
+  "@@locale": "ru",
+  "appTitle": "ОпенМайнд",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+  "settings": "Настройки",
+  "@settings": {
+    "description": "Settings menu title"
+  },
+  "darkMode": "Темный режим",
+  "@darkMode": {
+    "description": "Dark mode setting"
+  },
+  "language": "Язык",
+  "@language": {
+    "description": "Language setting"
+  },
+  "selectLanguage": "Выберите язык",
+  "@selectLanguage": {
+    "description": "Prompt to select a language"
+  },
+  "english": "Английский",
+  "@english": {
+    "description": "English language option"
+  },
+  "persian": "Персидский",
+  "@persian": {
+    "description": "Persian language option"
+  },
+  "turkish": "Турецкий",
+  "@turkish": {
+    "description": "Turkish language option"
+  },
+  "azerbaijani": "Азербайджанский",
+  "@azerbaijani": {
+    "description": "Azerbaijani language option"
+  },
+  "arabic": "Арабский",
+  "@arabic": {
+    "description": "Arabic language option"
+  },
+  "russian": "Русский",
+  "@russian": {
+    "description": "Russian language option"
+  },
+  "chinese": "Китайский",
+  "@chinese": {
+    "description": "Chinese language option"
+  },
+  "habits": "Привычки",
+  "@habits": {
+    "description": "Habits section title"
+  },
+  "addHabit": "Добавить привычку",
+  "@addHabit": {
+    "description": "Add habit button"
+  },
+  "editHabit": "Редактировать привычку",
+  "@editHabit": {
+    "description": "Edit habit button"
+  },
+  "deleteHabit": "Удалить привычку",
+  "@deleteHabit": {
+    "description": "Delete habit button"
+  },
+  "confirmDelete": "Вы уверены, что хотите удалить",
+  "@confirmDelete": {
+    "description": "Confirmation prompt for deletion"
+  },
+  "cancel": "Отмена",
+  "@cancel": {
+    "description": "Cancel button"
+  },
+  "delete": "Удалить",
+  "@delete": {
+    "description": "Delete button"
+  },
+  "title": "Заголовок",
+  "@title": {
+    "description": "Title field"
+  },
+  "description": "Описание",
+  "@description": {
+    "description": "Description field"
+  },
+  "category": "Категория",
+  "@category": {
+    "description": "Category field"
+  },
+  "frequency": "Частота",
+  "@frequency": {
+    "description": "Frequency field"
+  },
+  "reminder": "Напоминание",
+  "@reminder": {
+    "description": "Reminder field"
+  },
+  "color": "Цвет",
+  "@color": {
+    "description": "Color field"
+  },
+  "icon": "Иконка",
+  "@icon": {
+    "description": "Icon field"
+  },
+  "save": "Сохранить",
+  "@save": {
+    "description": "Save button"
+  },
+  "streaks": "Серии",
+  "@streaks": {
+    "description": "Streaks section"
+  },
+  "dayStreak": "Дневная серия",
+  "@dayStreak": {
+    "description": "Day streak"
+  },
+  "nextDue": "Следующий срок",
+  "@nextDue": {
+    "description": "Next due date"
+  },
+  "completed": "Завершено",
+  "@completed": {
+    "description": "Completed status"
+  },
+  "todo": "Задачи",
+  "@todo": {
+    "description": "To-do section"
+  },
+  "addTask": "Добавить задачу",
+  "@addTask": {
+    "description": "Add task button"
+  },
+  "editTask": "Редактировать задачу",
+  "@editTask": {
+    "description": "Edit task button"
+  },
+  "deleteTask": "Удалить задачу",
+  "@deleteTask": {
+    "description": "Delete task button"
+  },
+  "priority": "Приоритет",
+  "@priority": {
+    "description": "Priority field"
+  },
+  "dueDate": "Срок выполнения",
+  "@dueDate": {
+    "description": "Due date field"
+  },
+  "@dueTime": {
+    "description": "Label for Due Time Settings"
+  },
+  "dueTime": "Время выполнения",
+  "tags": "Теги",
+  "@tags": {
+    "description": "Tags field"
+  },
+  "completedTasks": "Завершенные задачи",
+  "@completedTasks": {
+    "description": "Completed tasks section"
+  },
+  "restore": "Восстановить",
+  "@restore": {
+    "description": "Restore button"
+  },
+  "search": "Поиск",
+  "@search": {
+    "description": "Search field"
+  },
+  "noTasks": "Задачи не найдены",
+  "@noTasks": {
+    "description": "No tasks found message"
+  },
+  "noHabits": "Привычки не найдены",
+  "@noHabits": {
+    "description": "No habits found message"
+  },
+  "customCategory": "Пользовательская категория",
+  "@customCategory": {
+    "description": "Метка для поля пользовательской категории"
+  },
+  "@lowPriority": {
+    "description": "Метка для настройки низкого приоритета"
+  },
+  "lowPriority": "Низкий",
+  "@mediumPriority": {
+    "description": "Метка для настройки среднего приоритета"
+  },
+  "mediumPriority": "Средний",
+  "@highPriority": {
+    "description": "Метка для настройки высокого приоритета"
+  },
+  "highPriority": "Высокий",
+  "@defaultCategory": {
+    "description": "Метка для категории по умолчанию"
+  },
+  "defaultCategory": "По умолчанию",
+  "@workCategory": {
+    "description": "Метка для категории работы"
+  },
+  "workCategory": "Работа",
+  "@personalCategory": {
+    "description": "Метка для личной категории"
+  },
+  "personalCategory": "Личное",
+  "@healthCategory": {
+    "description": "Метка для категории здоровья"
+  },
+  "healthCategory": "Здоровье",
+  "@fitnessCategory": {
+    "description": "Метка для категории фитнеса"
+  },
+  "fitnessCategory": "Фитнес",
+  "@educationCategory": {
+    "description": "Метка для категории образования"
+  },
+  "educationCategory": "Образование",
+  "@dailyFrequency": {
+    "description": "Метка для ежедневной частоты"
+  },
+  "dailyFrequency": "Ежедневно",
+  "@weeklyFrequency": {
+    "description": "Метка для еженедельной частоты"
+  },
+  "weeklyFrequency": "Еженедельно",
+  "@monthlyFrequency": {
+    "description": "Метка для ежемесячной частоты"
+  },
+  "monthlyFrequency": "Ежемесячно"
+}
