@@ -68,7 +68,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 controller: _titleController,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).title,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -82,7 +82,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 controller: _descriptionController,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).description,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 maxLines: 3,
               ),
@@ -91,7 +91,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 value: _selectedCategory,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).category,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 items: [
                   DropdownMenuItem(value: 'Personal', child: Text(AppLocalizations.of(context).personalCategory)),
@@ -114,7 +114,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                   controller: _customCategoryController,
                   decoration: InputDecoration(
                     labelText: AppLocalizations.of(context).customCategory,
-                    border: OutlineInputBorder(),
+                    border: const OutlineInputBorder(),
                   ),
                   validator: (value) {
                     if (_selectedCategory == 'Custom' && (value == null || value.isEmpty)) {
@@ -128,7 +128,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                 value: _selectedFrequency,
                 decoration: InputDecoration(
                   labelText: AppLocalizations.of(context).frequency,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                 ),
                 items: [
                   DropdownMenuItem(value: HabitFrequency.daily, child: Text(AppLocalizations.of(context).dailyFrequency)),

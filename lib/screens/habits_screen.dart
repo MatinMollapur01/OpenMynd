@@ -310,12 +310,16 @@ class HabitsScreenState extends State<HabitsScreen> {
 
   Future<void> _toggleHabitCompletion(Habit habit) async {
     try {
+      final now = DateTime.now();
+      final today = DateTime(now.year, now.month, now.day);
+      
       if (habit.isCompletedToday) {
         habit.uncompleteHabit();
       } else {
         habit.completeHabit();
       }
       await _databaseService.updateHabit(habit);
+      print('Habit ${habit.title} toggled. isCompletedToday: ${habit.isCompletedToday}');
       await _loadHabits(); // This will also call _updateStreakCount()
     } catch (e) {
       print("Error toggling habit completion: $e");

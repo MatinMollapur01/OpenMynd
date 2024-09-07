@@ -8,7 +8,7 @@ class HomeScreen extends StatefulWidget {
   final Function(bool) onThemeChanged;
   final Function(String) onLanguageChanged;
 
-  const HomeScreen({Key? key, required this.onThemeChanged, required this.onLanguageChanged}) : super(key: key);
+  const HomeScreen({super.key, required this.onThemeChanged, required this.onLanguageChanged});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

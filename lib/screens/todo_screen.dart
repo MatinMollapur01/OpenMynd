@@ -150,8 +150,8 @@ class TodoScreenState extends State<TodoScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addTask,
-        child: const Icon(Icons.add),
         tooltip: localizations.addTask,
+        child: const Icon(Icons.add),
       ),
     );
   }

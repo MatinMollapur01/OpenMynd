@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/task.dart';
@@ -22,7 +22,7 @@ class DatabaseService {
 
     return await openDatabase(
       path, 
-      version: 7, // Increase this to 7
+      version: 8, // Increase this to 8
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -59,7 +59,8 @@ class DatabaseService {
       customDays TEXT,
       isCompletedToday INTEGER NOT NULL,
       lastCompletionTime TEXT,
-      nextDueTime TEXT
+      nextDueTime TEXT,
+      recentCompletions TEXT // New field
     )
     ''');
 
@@ -90,6 +91,10 @@ class DatabaseService {
     if (oldVersion < 7) {
       // Add the new column to the 'tasks' table
       await _addColumnIfNotExists(db, 'tasks', 'completedDate', 'TEXT');
+    }
+    if (oldVersion < 8) {
+      // Add the new column to the 'habits' table
+      await _addColumnIfNotExists(db, 'habits', 'recentCompletions', 'TEXT');
     }
   }
 
@@ -157,13 +162,29 @@ class DatabaseService {
   Future<List<Habit>> readAllHabits() async {
     final db = await instance.database;
     final result = await db.query('habits');
-    print('Raw habit data: $result'); // Add this line for debugging
-    return result.map((map) => Habit.fromJson(map)).toList();
+    print('Raw habit data: $result'); // Keep this line for debugging
+    return result.map((map) {
+      var mutableMap = Map<String, dynamic>.from(map);
+      if (mutableMap['recentCompletions'] != null) {
+        try {
+          final decodedCompletions = jsonDecode(mutableMap['recentCompletions'] as String);
+          mutableMap['recentCompletions'] = decodedCompletions is Map ? decodedCompletions : {};
+        } catch (e) {
+          print('Error decoding recentCompletions: $e');
+          mutableMap['recentCompletions'] = {};
+        }
+      } else {
+        mutableMap['recentCompletions'] = {};
+      }
+      return Habit.fromJson(mutableMap);
+    }).toList();
   }
 
   Future<int> updateHabit(Habit habit) async {
     final db = await instance.database;
-    return await db.update('habits', habit.toJson(), where: 'id = ?', whereArgs: [habit.id]);
+    final json = habit.toJson();
+    json['recentCompletions'] = jsonEncode(habit.recentCompletions.map((key, value) => MapEntry(key.toIso8601String(), value)));
+    return await db.update('habits', json, where: 'id = ?', whereArgs: [habit.id]);
   }
 
   Future<int> deleteHabit(String id) async {

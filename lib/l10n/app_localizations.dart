@@ -400,6 +400,13 @@ class AppLocalizations {
   String get monthlyFrequency {
     return Intl.message('Monthly', name: 'monthlyFrequency');
   }
+
+  String get notCompleted {
+    return Intl.message(
+      'Not Completed',
+      name: 'notCompleted',
+    );
+  }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

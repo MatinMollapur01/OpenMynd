@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 enum HabitFrequency { daily, weekly, monthly, custom }
 
@@ -18,6 +19,7 @@ class Habit {
   bool isCompletedToday;
   DateTime? lastCompletionTime;
   DateTime? nextDueTime;
+  Map<DateTime, bool> recentCompletions;
 
   Habit({
     required this.id,
@@ -35,10 +37,11 @@ class Habit {
     this.isCompletedToday = false,
     this.lastCompletionTime,
     this.nextDueTime,
-  });
+    Map<DateTime, bool>? recentCompletions,
+  }) : this.recentCompletions = recentCompletions ?? {};
 
   Map<String, dynamic> toJson() {
-    return {
+    final json = {
       'id': id,
       'title': title,
       'description': description,
@@ -46,18 +49,31 @@ class Habit {
       'color': color.value,
       'category': category,
       'frequency': frequency.index,
-      'completionStatus': completionStatus.map((e) => e ? 1 : 0).join(','), // Convert to comma-separated string
+      'completionStatus': completionStatus.map((e) => e ? 1 : 0).join(','),
       'createdAt': createdAt.toIso8601String(),
-      'notes': notes.join('|'), // Use a separator that's unlikely to be in the notes
+      'notes': notes.join('|'),
       'reminderTime': reminderTime != null ? '${reminderTime!.hour.toString().padLeft(2, '0')}:${reminderTime!.minute.toString().padLeft(2, '0')}' : null,
       'customDays': customDays?.join(','),
       'isCompletedToday': isCompletedToday ? 1 : 0,
       'lastCompletionTime': lastCompletionTime?.toIso8601String(),
       'nextDueTime': nextDueTime?.toIso8601String(),
+      'recentCompletions': jsonEncode(recentCompletions.map((key, value) => MapEntry(key.toIso8601String(), value))),
     };
+    return json;
   }
 
   factory Habit.fromJson(Map<String, dynamic> json) {
+    Map<DateTime, bool> recentCompletions = {};
+    if (json['recentCompletions'] != null) {
+      final decodedCompletions = json['recentCompletions'] is String
+          ? jsonDecode(json['recentCompletions'] as String)
+          : json['recentCompletions'];
+      if (decodedCompletions is Map) {
+        recentCompletions = decodedCompletions.map((key, value) =>
+            MapEntry(DateTime.parse(key).toLocal(), value as bool));
+      }
+    }
+    
     return Habit(
       id: json['id'],
       title: json['title'],
@@ -76,6 +92,7 @@ class Habit {
       isCompletedToday: json['isCompletedToday'] == 1,
       lastCompletionTime: json['lastCompletionTime'] != null ? DateTime.parse(json['lastCompletionTime']) : null,
       nextDueTime: json['nextDueTime'] != null ? DateTime.parse(json['nextDueTime']) : null,
+      recentCompletions: recentCompletions,
     );
   }
 
@@ -118,34 +135,19 @@ class Habit {
   }
 
   void completeHabit() {
+    final now = DateTime.now();
     isCompletedToday = true;
-    lastCompletionTime = DateTime.now();
+    lastCompletionTime = now;
     nextDueTime = calculateNextDueTime();
-    final index = DateTime.now().difference(createdAt).inDays;
-    if (index >= 0 && index < completionStatus.length) {
-      completionStatus[index] = true;
-    } else if (index >= completionStatus.length) {
-      completionStatus.addAll(List.generate(index - completionStatus.length + 1, (_) => false));
-      completionStatus[index] = true;
-    }
+    recentCompletions[DateTime(now.year, now.month, now.day)] = true;
   }
 
   void uncompleteHabit() {
+    final now = DateTime.now();
     isCompletedToday = false;
     lastCompletionTime = null;
     nextDueTime = null;
-    final index = DateTime.now().difference(createdAt).inDays;
-    if (index >= 0 && index < completionStatus.length) {
-      completionStatus[index] = false;
-    }
-  }
-
-  bool isCompletedOnDay(DateTime date) {
-    final index = date.difference(createdAt).inDays;
-    if (index < 0 || index >= completionStatus.length) {
-      return false;
-    }
-    return completionStatus[index];
+    recentCompletions[DateTime(now.year, now.month, now.day)] = false;
   }
 }
 
