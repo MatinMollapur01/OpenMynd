@@ -227,5 +227,17 @@
   "@monthlyFrequency": {
     "description": "Aylık sıklık için etiket"
   },
-  "monthlyFrequency": "Aylık"
+  "monthlyFrequency": "Aylık",
+  "todoTab": "Yapılacaklar",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "Alışkanlıklar",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "Ayarlar",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  }
 }

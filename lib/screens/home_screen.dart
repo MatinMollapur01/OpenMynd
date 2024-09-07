@@ -19,9 +19,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context).appTitle),
+        title: Text(localizations.appTitle),
       ),
       body: IndexedStack(
         index: _selectedIndex,
@@ -32,18 +33,18 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'To-Do',
+            icon: const Icon(Icons.list),
+            label: localizations.todoTab,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.track_changes),
-            label: 'Habits',
+            icon: const Icon(Icons.track_changes),
+            label: localizations.habitsTab,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings),
+            label: localizations.settingsTab,
           ),
         ],
         currentIndex: _selectedIndex,

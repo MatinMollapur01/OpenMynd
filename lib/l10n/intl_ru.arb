@@ -227,5 +227,17 @@
   "@monthlyFrequency": {
     "description": "Метка для ежемесячной частоты"
   },
-  "monthlyFrequency": "Ежемесячно"
+  "monthlyFrequency": "Ежемесячно",
+  "todoTab": "Задачи",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "Привычки",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "Настройки",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  }
 }

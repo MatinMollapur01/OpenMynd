@@ -227,5 +227,17 @@
   "@monthlyFrequency": {
     "description": "每月频率的标签"
   },
-  "monthlyFrequency": "每月"
+  "monthlyFrequency": "每月",
+  "todoTab": "待办事项",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "习惯",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "设置",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  }
 }

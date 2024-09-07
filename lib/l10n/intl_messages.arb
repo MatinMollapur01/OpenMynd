@@ -224,5 +224,23 @@
   "customCategory": "Custom Category",
   "@customCategory": {
     "description": "Label for custom category field"
+  },
+  "todoTab": "To-Do",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "habitsTab": "Habits",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settingsTab": "Settings",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar",
+    "type": "text",
+    "placeholders": {}
   }
 }

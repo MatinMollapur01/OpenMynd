@@ -407,6 +407,31 @@ class AppLocalizations {
       name: 'notCompleted',
     );
   }
+
+  // Add these new getters
+  String get todoTab {
+    return Intl.message(
+      'To-Do',
+      name: 'todoTab',
+      desc: 'Label for the To-Do tab in the bottom navigation bar',
+    );
+  }
+
+  String get habitsTab {
+    return Intl.message(
+      'Habits',
+      name: 'habitsTab',
+      desc: 'Label for the Habits tab in the bottom navigation bar',
+    );
+  }
+
+  String get settingsTab {
+    return Intl.message(
+      'Settings',
+      name: 'settingsTab',
+      desc: 'Label for the Settings tab in the bottom navigation bar',
+    );
+  }
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

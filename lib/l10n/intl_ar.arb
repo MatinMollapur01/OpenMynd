@@ -227,5 +227,17 @@
   "@monthlyFrequency": {
     "description": "تسمية للتكرار الشهري"
   },
-  "monthlyFrequency": "شهري"
+  "monthlyFrequency": "شهري",
+  "todoTab": "المهام",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "العادات",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "الإعدادات",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  }
 }

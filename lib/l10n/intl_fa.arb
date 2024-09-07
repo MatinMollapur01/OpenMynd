@@ -127,7 +127,7 @@
   "@todo": {
     "description": "Label for to-do items"
   },
-  "todo": "کارهای انجام نشده",
+  "todo": "کارها",
   "@addTask": {
     "description": "Label for adding a task"
   },
@@ -227,5 +227,17 @@
   "@monthlyFrequency": {
     "description": "برچسب برای تکرار ماهانه"
   },
-  "monthlyFrequency": "ماهانه"
+  "monthlyFrequency": "ماهانه",
+  "todoTab": "کارها",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "عادت‌ها",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "تنظیمات",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  }
 }
