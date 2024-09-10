@@ -109,6 +109,7 @@ class AppLocalizations {
     return Intl.message(
       'Appearance',
       name: 'appearance',
+      desc: 'Label for appearance settings',
     );
   }
 

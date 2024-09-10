@@ -29,7 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           const TodoScreen(),
           const HabitsScreen(),
-          SettingsScreen(onThemeChanged: widget.onThemeChanged, onLanguageChanged: widget.onLanguageChanged),
+          SettingsScreen(
+            onThemeChanged: widget.onThemeChanged,
+            onLanguageChanged: (String languageCode) {
+              widget.onLanguageChanged(languageCode);
+              setState(() {}); // Trigger a rebuild to update the localized strings
+            },
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

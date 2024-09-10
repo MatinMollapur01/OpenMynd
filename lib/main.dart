@@ -22,7 +22,7 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   bool _isDarkMode = true;
-  Locale _locale = const Locale('en'); // Change this line
+  final ValueNotifier<Locale> _localeNotifier = ValueNotifier(const Locale('en'));
 
   @override
   void initState() {
@@ -34,7 +34,7 @@ class MyAppState extends State<MyApp> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       _isDarkMode = prefs.getBool('isDarkMode') ?? true;
-      _locale = Locale(prefs.getString('language') ?? 'en'); // Change this line
+      _localeNotifier.value = Locale(prefs.getString('language') ?? 'en');
     });
   }
 
@@ -45,44 +45,48 @@ class MyAppState extends State<MyApp> {
   }
 
   void _onLanguageChanged(String languageCode) {
-    setState(() {
-      _locale = Locale(languageCode); // Change this line
-    });
+    _localeNotifier.value = Locale(languageCode);
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'OpenMynd',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
-          brightness: _isDarkMode ? Brightness.dark : Brightness.light,
-          surface: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
-        ).copyWith(
-          // Override specific colors
-          surface: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
-        ),
-        scaffoldBackgroundColor: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
-        useMaterial3: true,
-      ),
-      locale: _locale, // Change this line
-      supportedLocales: const [
-        Locale('en'),
-        Locale('fa'),
-        Locale('tr'),
-        Locale('az'),
-        Locale('ar'),
-        Locale('ru'),
-        Locale('zh'),
-      ],
-      localizationsDelegates: const [
-        AppLocalizationsDelegate(),
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      home: HomeScreen(onThemeChanged: _onThemeChanged, onLanguageChanged: _onLanguageChanged),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: _localeNotifier,
+      builder: (context, locale, child) {
+        return MaterialApp(
+          title: 'OpenMynd',
+          theme: ThemeData(
+            fontFamily: 'Kavivanar', // Set the default font family to Kavivanar
+            colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.deepPurple,
+              brightness: _isDarkMode ? Brightness.dark : Brightness.light,
+              surface: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
+            ).copyWith(
+              // Override specific colors
+              surface: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
+            ),
+            scaffoldBackgroundColor: _isDarkMode ? const Color(0xFF1C1919) : const Color(0xFFD9D9D9),
+            useMaterial3: true,
+          ),
+          locale: locale,
+          supportedLocales: const [
+            Locale('en'),
+            Locale('fa'),
+            Locale('tr'),
+            Locale('az'),
+            Locale('ar'),
+            Locale('ru'),
+            Locale('zh'),
+          ],
+          localizationsDelegates: const [
+            AppLocalizationsDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          home: HomeScreen(onThemeChanged: _onThemeChanged, onLanguageChanged: _onLanguageChanged),
+        );
+      },
     );
   }
 }

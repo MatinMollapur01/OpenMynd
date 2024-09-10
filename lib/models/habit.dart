@@ -7,7 +7,7 @@ class Habit {
   final String id;
   final String title;
   final String description;
-  final IconData icon;
+  final int iconCodePoint; // Store the codePoint instead of IconData
   final Color color;
   final String category;
   final HabitFrequency frequency;
@@ -25,7 +25,7 @@ class Habit {
     required this.id,
     required this.title,
     required this.description,
-    required this.icon,
+    required this.iconCodePoint, // Change this from IconData to int
     required this.color,
     required this.category,
     required this.frequency,
@@ -38,14 +38,14 @@ class Habit {
     this.lastCompletionTime,
     this.nextDueTime,
     Map<DateTime, bool>? recentCompletions,
-  }) : this.recentCompletions = recentCompletions ?? {};
+  }) : recentCompletions = recentCompletions ?? {};
 
   Map<String, dynamic> toJson() {
     final json = {
       'id': id,
       'title': title,
       'description': description,
-      'icon': icon.codePoint,
+      'iconCodePoint': iconCodePoint, // Change from icon to iconCodePoint
       'color': color.value,
       'category': category,
       'frequency': frequency.index,
@@ -78,7 +78,7 @@ class Habit {
       id: json['id'],
       title: json['title'],
       description: json['description'],
-      icon: IconData(json['icon'], fontFamily: 'MaterialIcons'),
+      iconCodePoint: json['iconCodePoint'] ?? 0, // Ensure iconCodePoint is an int
       color: Color(json['color']),
       category: json['category'],
       frequency: HabitFrequency.values[json['frequency']],
@@ -148,6 +148,10 @@ class Habit {
     lastCompletionTime = null;
     nextDueTime = null;
     recentCompletions[DateTime(now.year, now.month, now.day)] = false;
+  }
+
+  IconData getIcon() {
+    return IconData(iconCodePoint, fontFamily: 'MaterialIcons');
   }
 }
 

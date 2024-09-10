@@ -239,5 +239,9 @@
   "settingsTab": "设置",
   "@settingsTab": {
     "description": "Label for the Settings tab in the bottom navigation bar"
+  },
+  "appearance": "外观",
+  "@appearance": {
+    "description": "Label for appearance settings"
   }
 }

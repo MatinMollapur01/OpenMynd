@@ -239,5 +239,9 @@
   "settingsTab": "تنظیمات",
   "@settingsTab": {
     "description": "Label for the Settings tab in the bottom navigation bar"
+  },
+  "appearance": "ظاهر",
+  "@appearance": {
+    "description": "Label for appearance settings"
   }
 }

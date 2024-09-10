@@ -227,5 +227,21 @@
   "@monthlyFrequency": {
     "description": "Aylıq tezlik üçün etiket"
   },
-  "monthlyFrequency": "Aylıq"
+  "monthlyFrequency": "Aylıq",
+  "todoTab": "Ediləcəklər",
+  "@todoTab": {
+    "description": "Label for the To-Do tab in the bottom navigation bar"
+  },
+  "habitsTab": "Vərdişlər",
+  "@habitsTab": {
+    "description": "Label for the Habits tab in the bottom navigation bar"
+  },
+  "settingsTab": "Ayarlar",
+  "@settingsTab": {
+    "description": "Label for the Settings tab in the bottom navigation bar"
+  },
+  "appearance": "Görünüş",
+  "@appearance": {
+    "description": "Label for appearance settings"
+  }
 }

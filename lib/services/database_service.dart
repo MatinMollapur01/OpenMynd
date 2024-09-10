@@ -22,7 +22,7 @@ class DatabaseService {
 
     return await openDatabase(
       path, 
-      version: 8, // Increase this to 8
+      version: 10, // Increase this to 10
       onCreate: _createDB,
       onUpgrade: _upgradeDB,
     );
@@ -39,16 +39,27 @@ class DatabaseService {
       category TEXT NOT NULL,
       tags TEXT,
       isCompleted INTEGER NOT NULL,
-      completedDate TEXT // New field
+      completedDate TEXT
     )
     ''');
 
+    await _createHabitsTable(db);
+
+    await db.execute('''
+    CREATE TABLE streaks(
+      date TEXT PRIMARY KEY,
+      streak_count INTEGER NOT NULL
+    )
+    ''');
+  }
+
+  Future<void> _createHabitsTable(Database db) async {
     await db.execute('''
     CREATE TABLE habits(
       id TEXT PRIMARY KEY,
       title TEXT NOT NULL,
       description TEXT,
-      icon INTEGER NOT NULL,
+      iconCodePoint INTEGER NOT NULL,
       color INTEGER NOT NULL,
       category TEXT NOT NULL,
       completionStatus TEXT NOT NULL,
@@ -60,41 +71,16 @@ class DatabaseService {
       isCompletedToday INTEGER NOT NULL,
       lastCompletionTime TEXT,
       nextDueTime TEXT,
-      recentCompletions TEXT // New field
-    )
-    ''');
-
-    await db.execute('''
-    CREATE TABLE streaks(
-      date TEXT PRIMARY KEY,
-      streak_count INTEGER NOT NULL
+      recentCompletions TEXT
     )
     ''');
   }
 
   Future<void> _upgradeDB(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 5) {
-      // Add the new columns to the 'habits' table
-      await _addColumnIfNotExists(db, 'habits', 'isCompletedToday', 'INTEGER');
-      await _addColumnIfNotExists(db, 'habits', 'lastCompletionTime', 'TEXT');
-      await _addColumnIfNotExists(db, 'habits', 'nextDueTime', 'TEXT');
-    }
-    if (oldVersion < 6) {
-      // Create the streaks table if it doesn't exist
-      await db.execute('''
-      CREATE TABLE IF NOT EXISTS streaks(
-        date TEXT PRIMARY KEY,
-        streak_count INTEGER NOT NULL
-      )
-      ''');
-    }
-    if (oldVersion < 7) {
-      // Add the new column to the 'tasks' table
-      await _addColumnIfNotExists(db, 'tasks', 'completedDate', 'TEXT');
-    }
-    if (oldVersion < 8) {
-      // Add the new column to the 'habits' table
-      await _addColumnIfNotExists(db, 'habits', 'recentCompletions', 'TEXT');
+    if (oldVersion < 10) {
+      // Drop the existing habits table and recreate it
+      await db.execute('DROP TABLE IF EXISTS habits');
+      await _createHabitsTable(db);
     }
   }
 
@@ -103,6 +89,27 @@ class DatabaseService {
     final columnExists = result.any((column) => column['name'] == columnName);
     if (!columnExists) {
       await db.execute('ALTER TABLE $tableName ADD COLUMN $columnName $columnType');
+    }
+  }
+
+  Future<void> _removeColumnIfExists(Database db, String tableName, String columnName) async {
+    final result = await db.rawQuery('PRAGMA table_info($tableName)');
+    final columnExists = result.any((column) => column['name'] == columnName);
+    if (columnExists) {
+      // SQLite does not support dropping columns directly, so we need to recreate the table
+      final tempTableName = '${tableName}_temp';
+      await db.execute('''
+      CREATE TABLE $tempTableName AS SELECT * FROM $tableName WHERE 0
+      ''');
+      await db.execute('''
+      INSERT INTO $tempTableName SELECT * FROM $tableName
+      ''');
+      await db.execute('''
+      DROP TABLE $tableName
+      ''');
+      await db.execute('''
+      ALTER TABLE $tempTableName RENAME TO $tableName
+      ''');
     }
   }
 

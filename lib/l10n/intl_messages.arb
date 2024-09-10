@@ -9,221 +9,339 @@
   },
   "settings": "Settings",
   "@settings": {
+    "description": "Label for the settings menu",
     "type": "text",
     "placeholders": {}
   },
   "darkMode": "Dark Mode",
   "@darkMode": {
+    "description": "Label for the dark mode setting",
     "type": "text",
     "placeholders": {}
   },
   "language": "Language",
   "@language": {
+    "description": "Label for the language setting",
     "type": "text",
     "placeholders": {}
   },
   "selectLanguage": "Select Language",
   "@selectLanguage": {
+    "description": "Prompt to select a language",
     "type": "text",
     "placeholders": {}
   },
   "english": "English",
   "@english": {
+    "description": "Name of the English language",
     "type": "text",
     "placeholders": {}
   },
   "persian": "Persian",
   "@persian": {
+    "description": "Name of the Persian language",
     "type": "text",
     "placeholders": {}
   },
   "turkish": "Turkish",
   "@turkish": {
+    "description": "Name of the Turkish language",
     "type": "text",
     "placeholders": {}
   },
   "azerbaijani": "Azerbaijani",
   "@azerbaijani": {
+    "description": "Name of the Azerbaijani language",
     "type": "text",
     "placeholders": {}
   },
   "arabic": "Arabic",
   "@arabic": {
+    "description": "Name of the Arabic language",
     "type": "text",
     "placeholders": {}
   },
   "russian": "Russian",
   "@russian": {
+    "description": "Name of the Russian language",
     "type": "text",
     "placeholders": {}
   },
   "chinese": "Chinese",
   "@chinese": {
+    "description": "Name of the Chinese language",
     "type": "text",
     "placeholders": {}
   },
   "habits": "Habits",
   "@habits": {
+    "description": "Label for the habits section",
     "type": "text",
     "placeholders": {}
   },
   "addHabit": "Add Habit",
   "@addHabit": {
+    "description": "Button label to add a new habit",
     "type": "text",
     "placeholders": {}
   },
   "editHabit": "Edit Habit",
   "@editHabit": {
+    "description": "Button label to edit an existing habit",
     "type": "text",
     "placeholders": {}
   },
   "deleteHabit": "Delete Habit",
   "@deleteHabit": {
+    "description": "Button label to delete a habit",
     "type": "text",
     "placeholders": {}
   },
   "confirmDelete": "Are you sure you want to delete",
   "@confirmDelete": {
+    "description": "Confirmation message for deleting an item",
     "type": "text",
     "placeholders": {}
   },
   "cancel": "Cancel",
   "@cancel": {
+    "description": "Button label to cancel an action",
     "type": "text",
     "placeholders": {}
   },
   "delete": "Delete",
   "@delete": {
+    "description": "Button label to confirm deletion",
     "type": "text",
     "placeholders": {}
   },
   "title": "Title",
   "@title": {
+    "description": "Label for the title field",
     "type": "text",
     "placeholders": {}
   },
   "description": "Description",
   "@description": {
+    "description": "Label for the description field",
     "type": "text",
     "placeholders": {}
   },
   "category": "Category",
   "@category": {
+    "description": "Label for the category field",
     "type": "text",
     "placeholders": {}
   },
   "frequency": "Frequency",
   "@frequency": {
+    "description": "Label for frequency setting",
     "type": "text",
     "placeholders": {}
   },
   "reminder": "Reminder",
   "@reminder": {
+    "description": "Label for reminder setting",
     "type": "text",
     "placeholders": {}
   },
   "color": "Color",
   "@color": {
+    "description": "Label for color selection",
     "type": "text",
     "placeholders": {}
   },
   "icon": "Icon",
   "@icon": {
+    "description": "Label for icon selection",
     "type": "text",
     "placeholders": {}
   },
   "save": "Save",
   "@save": {
+    "description": "Button label to save changes",
     "type": "text",
     "placeholders": {}
   },
   "streaks": "Streaks",
   "@streaks": {
+    "description": "Label for streaks section",
     "type": "text",
     "placeholders": {}
   },
   "dayStreak": "Day Streak",
   "@dayStreak": {
+    "description": "Label for day streak count",
     "type": "text",
     "placeholders": {}
   },
   "nextDue": "Next due",
   "@nextDue": {
+    "description": "Label for next due date",
     "type": "text",
     "placeholders": {}
   },
   "completed": "Completed",
   "@completed": {
+    "description": "Label for completed items",
     "type": "text",
     "placeholders": {}
   },
   "todo": "To-Do",
   "@todo": {
+    "description": "Label for to-do items",
     "type": "text",
     "placeholders": {}
   },
   "addTask": "Add Task",
   "@addTask": {
+    "description": "Button label to add a new task",
     "type": "text",
     "placeholders": {}
   },
   "editTask": "Edit Task",
   "@editTask": {
+    "description": "Button label to edit an existing task",
     "type": "text",
     "placeholders": {}
   },
   "deleteTask": "Delete Task",
   "@deleteTask": {
+    "description": "Button label to delete a task",
     "type": "text",
     "placeholders": {}
   },
   "priority": "Priority",
   "@priority": {
+    "description": "Label for priority setting",
     "type": "text",
     "placeholders": {}
   },
   "dueDate": "Due Date",
   "@dueDate": {
+    "description": "Label for due date setting",
     "type": "text",
     "placeholders": {}
   },
-  "@dueTime": {
-    "description": "Label for Due Time Settings"
-  },
   "dueTime": "Due Time",
+  "@dueTime": {
+    "description": "Label for Due Time Settings",
+    "type": "text",
+    "placeholders": {}
+  },
   "tags": "Tags",
   "@tags": {
+    "description": "Label for tags",
     "type": "text",
     "placeholders": {}
   },
   "completedTasks": "Completed Tasks",
   "@completedTasks": {
+    "description": "Label for completed tasks section",
     "type": "text",
     "placeholders": {}
   },
   "restore": "Restore",
   "@restore": {
+    "description": "Button label to restore an item",
     "type": "text",
     "placeholders": {}
   },
   "search": "Search",
   "@search": {
+    "description": "Label for search functionality",
     "type": "text",
     "placeholders": {}
   },
   "noTasks": "No tasks found",
   "@noTasks": {
+    "description": "Message shown when no tasks are found",
     "type": "text",
     "placeholders": {}
   },
   "noHabits": "No habits found",
   "@noHabits": {
+    "description": "Message shown when no habits are found",
     "type": "text",
     "placeholders": {}
   },
   "customCategory": "Custom Category",
   "@customCategory": {
-    "description": "Label for custom category field"
+    "description": "Label for custom category field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "lowPriority": "Low",
+  "@lowPriority": {
+    "description": "Label for low priority setting",
+    "type": "text",
+    "placeholders": {}
+  },
+  "mediumPriority": "Medium",
+  "@mediumPriority": {
+    "description": "Label for medium priority setting",
+    "type": "text",
+    "placeholders": {}
+  },
+  "highPriority": "High",
+  "@highPriority": {
+    "description": "Label for high priority setting",
+    "type": "text",
+    "placeholders": {}
+  },
+  "defaultCategory": "Default",
+  "@defaultCategory": {
+    "description": "Label for default category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "workCategory": "Work",
+  "@workCategory": {
+    "description": "Label for work category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "personalCategory": "Personal",
+  "@personalCategory": {
+    "description": "Label for personal category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "healthCategory": "Health",
+  "@healthCategory": {
+    "description": "Label for health category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "fitnessCategory": "Fitness",
+  "@fitnessCategory": {
+    "description": "Label for fitness category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "educationCategory": "Education",
+  "@educationCategory": {
+    "description": "Label for education category",
+    "type": "text",
+    "placeholders": {}
+  },
+  "dailyFrequency": "Daily",
+  "@dailyFrequency": {
+    "description": "Label for daily frequency",
+    "type": "text",
+    "placeholders": {}
+  },
+  "weeklyFrequency": "Weekly",
+  "@weeklyFrequency": {
+    "description": "Label for weekly frequency",
+    "type": "text",
+    "placeholders": {}
+  },
+  "monthlyFrequency": "Monthly",
+  "@monthlyFrequency": {
+    "description": "Label for monthly frequency",
+    "type": "text",
+    "placeholders": {}
   },
   "todoTab": "To-Do",
   "@todoTab": {
@@ -240,6 +358,12 @@
   "settingsTab": "Settings",
   "@settingsTab": {
     "description": "Label for the Settings tab in the bottom navigation bar",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appearance": "Appearance",
+  "@appearance": {
+    "description": "Label for appearance settings",
     "type": "text",
     "placeholders": {}
   }

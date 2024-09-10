@@ -19,7 +19,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
   late TextEditingController _customCategoryController;
   String _selectedCategory = 'Personal';
   HabitFrequency _selectedFrequency = HabitFrequency.daily;
-  IconData _selectedIcon = Icons.star;
+  int _selectedIconCodePoint = Icons.star.codePoint; // Change from IconData to int
   Color _selectedColor = Colors.blue;
 
   final List<String> _categories = ['Personal', 'Work', 'Health', 'Fitness', 'Education', 'Custom'];
@@ -46,7 +46,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
     if (widget.habit != null) {
       _selectedCategory = widget.habit!.category;
       _selectedFrequency = widget.habit!.frequency;
-      _selectedIcon = widget.habit!.icon;
+      _selectedIconCodePoint = widget.habit!.iconCodePoint; // Change from IconData to int
       _selectedColor = widget.habit!.color;
     }
   }
@@ -150,13 +150,13 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        _selectedIcon = icon;
+                        _selectedIconCodePoint = icon.codePoint; // Change from IconData to int
                       });
                     },
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: _selectedIcon == icon ? Colors.blue.withOpacity(0.3) : Colors.transparent,
+                        color: _selectedIconCodePoint == icon.codePoint ? Colors.blue.withOpacity(0.3) : Colors.transparent,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Icon(icon, size: 32),
@@ -225,7 +225,7 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
         description: _descriptionController.text,
         category: _selectedCategory == 'Custom' ? _customCategoryController.text : _selectedCategory,
         frequency: _selectedFrequency,
-        icon: _selectedIcon,
+        iconCodePoint: _selectedIconCodePoint, // Change from IconData to int
         color: _selectedColor,
         createdAt: widget.habit?.createdAt ?? DateTime.now(),
         completionStatus: widget.habit?.completionStatus ?? [],
@@ -234,8 +234,6 @@ class AddEditHabitScreenState extends State<AddEditHabitScreen> {
         lastCompletionTime: widget.habit?.lastCompletionTime,
         nextDueTime: widget.habit?.nextDueTime,
       );
-
-      print('Saving habit: ${habit.toJson()}'); // Add this line for debugging
 
       Navigator.pop(context, habit);
     }

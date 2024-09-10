@@ -241,7 +241,7 @@ class HabitsScreenState extends State<HabitsScreen> {
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: habit.color,
-        child: Icon(habit.icon, color: Colors.white),
+        child: Icon(habit.getIcon(), color: Colors.white), // Use getIcon() method here
       ),
       title: Text(habit.title),
       subtitle: Column(

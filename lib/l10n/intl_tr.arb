@@ -239,5 +239,9 @@
   "settingsTab": "Ayarlar",
   "@settingsTab": {
     "description": "Label for the Settings tab in the bottom navigation bar"
+  },
+  "appearance": "Görünüm",
+  "@appearance": {
+    "description": "Label for appearance settings"
   }
 }
