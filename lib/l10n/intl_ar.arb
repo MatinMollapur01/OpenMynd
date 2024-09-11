@@ -243,5 +243,21 @@
   "appearance": "المظهر",
   "@appearance": {
     "description": "Label for appearance settings"
+  },
+  "myketAppStore": "متجر تطبيقات مايكت",
+  "@myketAppStore": {
+    "description": "Title for Myket App Store section"
+  },
+  "submitUserReview": "إرسال تقييم المستخدم",
+  "@submitUserReview": {
+    "description": "Button to submit a user review"
+  },
+  "openAppPageInMyket": "فتح صفحة التطبيق في مايكت",
+  "@openAppPageInMyket": {
+    "description": "Button to open the app page in Myket"
+  },
+  "openDeveloperAppsPage": "فتح صفحة تطبيقات المطور",
+  "@openDeveloperAppsPage": {
+    "description": "Button to open the developer's apps page"
   }
 }

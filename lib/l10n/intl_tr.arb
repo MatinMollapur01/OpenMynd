@@ -243,5 +243,21 @@
   "appearance": "Görünüm",
   "@appearance": {
     "description": "Label for appearance settings"
+  },
+  "myketAppStore": "Myket Uygulama Mağazası",
+  "@myketAppStore": {
+    "description": "Title for Myket App Store section"
+  },
+  "submitUserReview": "Kullanıcı Değerlendirmesi Gönder",
+  "@submitUserReview": {
+    "description": "Button to submit a user review"
+  },
+  "openAppPageInMyket": "Myket'te Uygulama Sayfasını Aç",
+  "@openAppPageInMyket": {
+    "description": "Button to open the app page in Myket"
+  },
+  "openDeveloperAppsPage": "Geliştirici'nin Uygulamalar Sayfasını Aç",
+  "@openDeveloperAppsPage": {
+    "description": "Button to open the developer's apps page"
   }
 }

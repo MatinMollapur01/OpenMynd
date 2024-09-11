@@ -243,5 +243,21 @@
   "appearance": "Appearance",
   "@appearance": {
     "description": "Label for appearance settings"
+  },
+  "myketAppStore": "Myket App Store",
+  "@myketAppStore": {
+    "description": "Title for Myket App Store section"
+  },
+  "submitUserReview": "Submit User Review",
+  "@submitUserReview": {
+    "description": "Button to submit a user review"
+  },
+  "openAppPageInMyket": "Open App Page in Myket",
+  "@openAppPageInMyket": {
+    "description": "Button to open the app page in Myket"
+  },
+  "openDeveloperAppsPage": "Open Developer''s Apps Page",
+  "@openDeveloperAppsPage": {
+    "description": "Button to open the developer's apps page"
   }
 }

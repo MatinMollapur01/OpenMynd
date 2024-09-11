@@ -243,5 +243,21 @@
   "appearance": "外观",
   "@appearance": {
     "description": "Label for appearance settings"
+  },
+  "myketAppStore": "Myket应用商店",
+  "@myketAppStore": {
+    "description": "Title for Myket App Store section"
+  },
+  "submitUserReview": "提交用户评论",
+  "@submitUserReview": {
+    "description": "Button to submit a user review"
+  },
+  "openAppPageInMyket": "在Myket中打开应用页面",
+  "@openAppPageInMyket": {
+    "description": "Button to open the app page in Myket"
+  },
+  "openDeveloperAppsPage": "打开开发者的应用页面",
+  "@openDeveloperAppsPage": {
+    "description": "Button to open the developer's apps page"
   }
 }

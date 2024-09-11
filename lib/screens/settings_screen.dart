@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:openmynd/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsScreen extends StatefulWidget {
   final Function(bool) onThemeChanged;
@@ -39,6 +40,16 @@ class SettingsScreenState extends State<SettingsScreen> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', language);
     widget.onLanguageChanged(language); // Notify the app to change the language
+  }
+
+  Future<void> _launchUrl(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not launch $url')),
+      );
+    }
   }
 
   @override
@@ -131,6 +142,22 @@ class SettingsScreenState extends State<SettingsScreen> {
                 _saveLanguagePreference(selectedLanguage);
               }
             },
+          ),
+          const Divider(),
+          ListTile(
+            title: Text(localizations.myketAppStore, style: const TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          ListTile(
+            title: Text(localizations.submitUserReview),
+            onTap: () => _launchUrl('myket://comment/com.example.open_mynd'),
+          ),
+          ListTile(
+            title: Text(localizations.openAppPageInMyket),
+            onTap: () => _launchUrl('myket://details?id=com.example.open_mynd'),
+          ),
+          ListTile(
+            title: Text(localizations.openDeveloperAppsPage),
+            onTap: () => _launchUrl('myket://developer/dev-76064'),
           ),
         ],
       ),

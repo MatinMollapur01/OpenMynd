@@ -433,6 +433,40 @@ class AppLocalizations {
       desc: 'Label for the Settings tab in the bottom navigation bar',
     );
   }
+
+  String get myketAppStore {
+    return Intl.message(
+      'Myket App Store',
+      name: 'myketAppStore',
+      desc: 'Title for Myket App Store section',
+    );
+  }
+
+  String get submitUserReview {
+    return Intl.message(
+      'Submit User Review',
+      name: 'submitUserReview',
+      desc: 'Button to submit a user review',
+    );
+  }
+
+  String get openAppPageInMyket {
+    return Intl.message(
+      'Open App Page in Myket',
+      name: 'openAppPageInMyket',
+      desc: 'Button to open the app page in Myket',
+    );
+  }
+
+  String get openDeveloperAppsPage {
+    return Intl.message(
+      'Open Developer\'s Apps Page',
+      name: 'openDeveloperAppsPage',
+      desc: 'Button to open the developer\'s apps page',
+    );
+  }
+
+  // ... (rest of the class)
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
